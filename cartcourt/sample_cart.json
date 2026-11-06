@@ -1,0 +1,65 @@
+{
+ "note": "시연용 장바구니. 실제 수집이 막힐 때 재판 흐름을 보여주기 위한 데이터입니다.",
+ "items": [
+  {
+   "id": "s1",
+   "name": "베이지 울 니트 A",
+   "platform": "musinsa",
+   "price": 59000,
+   "category": "top",
+   "color_hex": "#D9C7A3",
+   "color_name": "베이지",
+   "url": "https://www.musinsa.com/sample/s1",
+   "image": "",
+   "source": "sample"
+  },
+  {
+   "id": "s2",
+   "name": "베이지 케이블 니트 B",
+   "platform": "29cm",
+   "price": 55000,
+   "category": "top",
+   "color_hex": "#E0CFAE",
+   "color_name": "베이지",
+   "url": "https://www.29cm.co.kr/sample/s2",
+   "image": "",
+   "source": "sample"
+  },
+  {
+   "id": "s3",
+   "name": "오트밀 라운드 니트 C",
+   "platform": "zigzag",
+   "price": 52000,
+   "category": "top",
+   "color_hex": "#DCC9A8",
+   "color_name": "오트밀",
+   "url": "https://zigzag.kr/sample/s3",
+   "image": "",
+   "source": "sample"
+  },
+  {
+   "id": "s4",
+   "name": "블랙 레더 숄더백",
+   "platform": "29cm",
+   "price": 89000,
+   "category": "bag",
+   "color_hex": "#111111",
+   "color_name": "블랙",
+   "url": "https://www.29cm.co.kr/sample/s4",
+   "image": "",
+   "source": "sample"
+  },
+  {
+   "id": "s5",
+   "name": "그레이 울 양말 3족",
+   "platform": "coupang",
+   "price": 12900,
+   "category": "acc",
+   "color_hex": "#8A8A8A",
+   "color_name": "그레이",
+   "url": "https://www.coupang.com/sample/s5",
+   "image": "",
+   "source": "sample"
+  }
+ ]
+}

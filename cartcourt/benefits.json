@@ -1,0 +1,24 @@
+{
+  "as_of": "2026-11-02",
+  "note": "시연용 예시 혜택입니다. 시연 직전 각 플랫폼 공지에서 실제 값으로 바꾸고 as_of를 갱신하세요.",
+  "payments": [
+    {"id": "shinhan",  "label": "신한카드"},
+    {"id": "hyundai",  "label": "현대카드"},
+    {"id": "samsung",  "label": "삼성카드"},
+    {"id": "kb",       "label": "KB국민카드"},
+    {"id": "naverpay", "label": "네이버페이"},
+    {"id": "kakaopay", "label": "카카오페이"},
+    {"id": "tosspay",  "label": "토스페이"}
+  ],
+  "benefits": [
+    {"platform": "29cm",    "payment": "shinhan",  "label": "신한카드",  "type": "percent", "value": 10, "min_amount": 50000,  "cap": 10000, "note": "5만원 이상 10% 즉시할인(최대 1만원)"},
+    {"platform": "29cm",    "payment": "naverpay", "label": "네이버페이", "type": "percent", "value": 3,  "min_amount": 0,      "cap": 0,     "note": "포인트 3% 적립"},
+    {"platform": "29cm",    "payment": "kakaopay", "label": "카카오페이", "type": "fixed",   "value": 3000, "min_amount": 30000, "cap": 0,   "note": "3만원 이상 3천원 할인"},
+    {"platform": "musinsa", "payment": "hyundai",  "label": "현대카드",  "type": "percent", "value": 15, "min_amount": 100000, "cap": 20000, "note": "10만원 이상 15%(최대 2만원)"},
+    {"platform": "musinsa", "payment": "naverpay", "label": "네이버페이", "type": "percent", "value": 5,  "min_amount": 0,      "cap": 5000,  "note": "5% 적립(최대 5천원)"},
+    {"platform": "musinsa", "payment": "tosspay",  "label": "토스페이",  "type": "fixed",   "value": 2000, "min_amount": 20000, "cap": 0,   "note": "2만원 이상 2천원 할인"},
+    {"platform": "coupang", "payment": "kb",       "label": "KB국민카드", "type": "percent", "value": 7,  "min_amount": 50000,  "cap": 7000,  "note": "5만원 이상 7%(최대 7천원)"},
+    {"platform": "coupang", "payment": "samsung",  "label": "삼성카드",  "type": "percent", "value": 5,  "min_amount": 30000,  "cap": 5000,  "note": "3만원 이상 5%(최대 5천원)"},
+    {"platform": "zigzag",  "payment": "kakaopay", "label": "카카오페이", "type": "percent", "value": 5,  "min_amount": 30000,  "cap": 5000,  "note": "3만원 이상 5%(최대 5천원)"}
+  ]
+}
