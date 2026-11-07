@@ -1,0 +1,41 @@
+{
+ "as_of": "2026-11-06",
+ "fx": {
+  "note": "KRW per 1 unit. Banque de France 2026-11-02 EUR 기준 교차환율. 시연 전 갱신하세요.",
+  "USD": 1343,
+  "JPY": 8.505,
+  "CNY": 202
+ },
+ "tax_refund": {
+  "note": "외국인 사후면세 근사치. 같은 매장 1회 결제 ₩15,000 이상 대상, 즉시환급은 1회 ₩1,000,000 미만·여행 전체 ₩5,000,000 이하. 실제 환급액은 환급 대행사·매장에 따라 다름 (출처: namanecard 2026 가이드). 시연 전 확인하세요.",
+  "min_per_transaction": 15000,
+  "instant_max_per_transaction": 1000000,
+  "instant_max_total": 5000000,
+  "bands": [
+   {
+    "from": 15000,
+    "to": 50000,
+    "rate": 0.05
+   },
+   {
+    "from": 50000,
+    "to": 150000,
+    "rate": 0.065
+   },
+   {
+    "from": 150000,
+    "to": 1000000,
+    "rate": 0.072
+   },
+   {
+    "from": 1000000,
+    "to": null,
+    "rate": 0.077
+   }
+  ]
+ },
+ "duplicate": {
+  "same_category": true,
+  "min_shared_tags": 2
+ }
+}

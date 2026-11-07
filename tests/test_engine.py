@@ -1,78 +1,85 @@
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+"""Engine tests.  Every expected number was computed by hand (verification #2: zero error)."""
+from kbeauty.engine import Line, Profile, compare_price, find_duplicates, scan, skin_fit, summarize, tax_refund
 
-from cartcourt.engine import (Item, Benefit, Settings, judge, group_duplicates,
-                              color_distance, benefit_discount, evaluate_combination)
 
-BENEFITS = [
-    Benefit("29cm", "shinhan", "신한카드", "percent", 10, min_amount=50000, cap=10000),
-    Benefit("29cm", "naverpay", "네이버페이", "percent", 3),
-    Benefit("musinsa", "naverpay", "네이버페이", "percent", 5, cap=5000),
-    Benefit("musinsa", "hyundai", "현대카드", "percent", 15, min_amount=100000, cap=20000),
-]
+def test_catalog_integrity(catalog):
+    assert len(catalog) == 43
+    for p in catalog:
+        assert p.price_krw > 0 and set(p.home_price) == {"USD", "JPY", "CNY"} and p.tags
 
-def knit(i, platform, price, hexc="#D9C7A3"):
-    return Item(id=i, name=f"베이지 니트 {i}", platform=platform, price=price,
-                category="top", color_hex=hexc)
 
-def test_color_distance_symmetric_and_bounded():
-    assert color_distance("#000000", "#000000") == 0
-    assert 0.99 <= color_distance("#000000", "#ffffff") <= 1
-    assert color_distance("#D9C7A3", "#E0CFAE") < 0.18       # 두 베이지
-    assert color_distance("#D9C7A3", "#111111") > 0.18       # 베이지 vs 블랙
+def test_price_compare_usd_by_hand(catalog, rules):
+    # 28,000 ÷ 1,343 = 20.849… → $20.85 ; home $29 → saving $8.15 (28%)
+    r = compare_price(catalog["anua-heartleaf-toner"], "USD", rules)
+    assert (r.korea_local, r.home_local, r.saving_local, r.saving_pct, r.cheaper_in_korea) == (20.85, 29.0, 8.15, 28, True)
 
-def test_duplicate_grouping():
-    items = [knit("A", "musinsa", 59000), knit("B", "29cm", 55000, "#E0CFAE"),
-             knit("C", "zigzag", 52000, "#DCC9A8"),
-             Item("bag", "블랙 가방", "29cm", 89000, "bag", "#111111")]
-    groups = group_duplicates(items)
-    assert len(groups) == 2
-    assert sorted(len(g) for g in groups) == [1, 3]
 
-def test_benefit_discount_rules():
-    b = Benefit("29cm", "shinhan", "신한", "percent", 10, min_amount=50000, cap=10000)
-    assert benefit_discount(40000, b) == 0          # 조건 미달
-    assert benefit_discount(80000, b) == 8000
-    assert benefit_discount(200000, b) == 10000     # 상한
+def test_price_compare_jpy_by_hand(catalog, rules):
+    # 22,000 ÷ 8.505 = 2,586.7 → ¥2,587 ; home ¥2,700 → ¥113 (4%)
+    r = compare_price(catalog["torriden-divein-serum"], "JPY", rules)
+    assert (r.korea_local, r.saving_local, r.saving_pct) == (2587, 113, 4)
 
-def test_verdict_example_from_proposal():
-    """기획안 예시: 니트 3벌 중 B만 허가, 29CM에서 가방과 함께 신한카드."""
-    items = [knit("A", "musinsa", 59000), knit("B", "29cm", 55000, "#E0CFAE"),
-             knit("C", "zigzag", 52000, "#DCC9A8"),
-             Item("bag", "블랙 가방", "29cm", 89000, "bag", "#111111")]
-    s = Settings(budget=200000, payments=["shinhan", "naverpay"])
-    v = judge(items, BENEFITS, s)
-    approved = {i["id"] for i in v["approved"]}
-    # 중복 묶음에서 개별 최종가 최저는 C(52,000, 지그재그는 혜택 없음) → C 생존
-    # 하지만 B는 29CM 신한 10%로 49,500 → B가 최저. 따라서 B 생존
-    assert "B" in approved and "A" not in approved and "C" not in approved
-    assert "bag" in approved
-    plan29 = next(p for p in v["plan"] if p["platform"] == "29cm")
-    assert plan29["payment"] == "shinhan"
-    assert plan29["list_total"] == 144000 and plan29["discount"] == 10000
-    assert v["final_total"] == 134000
-    assert v["rejected_amount"] == 59000 + 52000
-    assert any(r["rule"] == "R1 중복 판정" for r in v["evidence"])
 
-def test_budget_rejects_and_is_deterministic():
-    items = [Item("x", "코트", "musinsa", 150000, "outer", "#333333"),
-             Item("y", "셔츠", "29cm", 40000, "top", "#ffffff")]
-    s = Settings(budget=100000, payments=["naverpay"])
-    v1 = judge(items, BENEFITS, s)
-    v2 = judge(items, BENEFITS, s)
-    assert v1 == v2                                   # 결정론
-    assert [i["id"] for i in v1["approved"]] == ["y"]
-    assert v1["rejected"][0]["item"]["id"] == "x"
-    assert "예산 초과" in v1["rejected"][0]["reason"]
+def test_price_compare_can_be_cheaper_at_home(catalog, rules):
+    # Weak yen: 32,000 ÷ 8.505 = ¥3,762 > home ¥3,300 → we report it honestly
+    r = compare_price(catalog["innisfree-greentea-serum"], "JPY", rules)
+    assert not r.cheaper_in_korea and r.saving_local == -462
 
-def test_minority_opinion_when_unowned_card_is_better():
-    items = [Item("x", "코트", "musinsa", 150000, "outer", "#333333")]
-    s = Settings(budget=200000, payments=["naverpay"])
-    v = judge(items, BENEFITS, s)
-    assert v["discount"] == 5000
-    assert v["minority_opinion"] and "현대카드" in v["minority_opinion"]
 
-def test_evaluate_combination_prefers_bundle_threshold():
-    items = [Item("a", "A", "29cm", 30000, "top", "#000"), Item("b", "B", "29cm", 30000, "bag", "#fff")]
-    _, lst, disc, final = evaluate_combination(items, BENEFITS, ["shinhan", "naverpay"])
-    assert lst == 60000 and disc == 6000 and final == 54000   # 합산 5만 이상 → 신한 10%
+def test_skin_fit_rules(catalog):
+    assert skin_fit(catalog["aestura-atobarrier-cream"], "dry").level == "good"
+    s = skin_fit(catalog["medicube-zero-pore-pad"], "sensitive")
+    assert s.level == "caution" and set(s.caution) == {"bha", "exfoliating"}
+    assert skin_fit(catalog["romand-juicy-tint"], "oily").level == "ok"        # makeup is neutral
+    assert skin_fit(catalog["amuse-dew-serum-blush"], "dry").level == "ok"
+
+
+def test_duplicate_requires_same_category_and_two_shared_tags(catalog):
+    basket = [catalog["torriden-divein-serum"], catalog["anua-heartleaf-toner"]]
+    d = find_duplicates(catalog["innisfree-greentea-serum"], basket)
+    assert len(d) == 1 and d[0].product_id == "torriden-divein-serum"
+    assert set(d[0].shared_tags) == {"hyaluronic_acid", "hydrating"}
+    assert find_duplicates(catalog["aestura-atobarrier-cream"], [catalog["torriden-divein-serum"]]) == []  # different category
+    assert find_duplicates(catalog["boj-relief-sun"], [catalog["skin1004-sun-serum"]]) == []               # only spf50 shared
+    same = find_duplicates(catalog["boj-relief-sun"], [catalog["boj-relief-sun"]])
+    assert same and same[0].same_product
+
+
+def test_new_products_duplicates(catalog):
+    d = find_duplicates(catalog["romand-glasting-melting-balm"], [catalog["romand-glasting-tint"]])
+    assert d and set(d[0].shared_tags) == {"glossy", "hydrating"}
+    d2 = find_duplicates(catalog["celimax-heartleaf-bha-pad"], [catalog["medicube-zero-pore-pad"]])
+    assert d2 and set(d2[0].shared_tags) == {"bha", "exfoliating"}
+
+
+def test_tax_refund_bands_by_hand(catalog, rules):
+    # 28,000 + 22,000 + 18,000 = 68,000 → 50k–150k band 6.5% → ₩4,420, instant eligible
+    r = tax_refund([Line("anua-heartleaf-toner"), Line("torriden-divein-serum"), Line("boj-relief-sun")], catalog, rules)
+    assert r.refund_krw == 4420 and r.stores[0].instant
+    # ₩12,900 at one store → below ₩15,000 → 0
+    assert tax_refund([Line("cosrx-gel-cleanser", store="Daiso")], catalog, rules).refund_krw == 0
+    # stores are not merged: 12,000 + 12,000 in two stores → both ineligible
+    r2 = tax_refund([Line("cosrx-gel-cleanser", store="A"), Line("cosrx-gel-cleanser", store="B")], catalog, rules)
+    assert r2.refund_krw == 0 and len(r2.stores) == 2
+
+
+def test_summary_by_hand(catalog, rules):
+    lines = [Line("anua-heartleaf-toner"), Line("torriden-divein-serum"), Line("boj-relief-sun")]
+    s = summarize(lines, catalog, Profile(currency="USD"), rules)
+    # 68,000 ÷ 1,343 = 50.63 ; home 29+22+18 = 69 ; refund 4,420 ÷ 1,343 = 3.29
+    # net 50.63 − 3.29 = 47.34 ; saved 69 − 47.34 = 21.66 (31%)
+    assert (s.total_krw, s.korea_local, s.home_local) == (68000, 50.63, 69.0)
+    assert (s.refund_local, s.net_local, s.saved_local, s.saved_pct) == (3.29, 47.34, 21.66, 31)
+    assert any("R4" in e for e in s.evidence)
+
+
+def test_quantities_multiply(catalog, rules):
+    s = summarize([Line("boj-relief-sun", qty=3)], catalog, Profile(currency="USD"), rules)
+    assert s.total_krw == 54000 and s.lines[0].line_krw == 54000
+
+
+def test_scan_is_deterministic(catalog, rules):
+    prof = Profile(currency="JPY", skin="sensitive")
+    a = scan(catalog["vt-reedle-shot"], prof, [catalog["skin1004-centella-ampoule"]], rules)
+    b = scan(catalog["vt-reedle-shot"], prof, [catalog["skin1004-centella-ampoule"]], rules)
+    assert a == b and a.fit.level == "caution"

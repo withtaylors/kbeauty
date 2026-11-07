@@ -1,80 +1,148 @@
-# 장바구니 재판소 (The Cart Court) — MVP
+# K-Beauty Scan
 
-여러 쇼핑몰 장바구니 **링크만 붙여 넣으면**, 검사·변호사가 다투고 판사가
-**무엇을 · 어디서 · 어떤 카드로** 사야 가장 이득인지 **판결문**으로 알려주는 모바일 웹.
+외국인 관광객이 한국 매장에서 K-뷰티 제품을 찍으면, **내 언어로** 무슨 제품인지 · 내 피부에 맞는지 · 본국보다 얼마 싼지 · 이미 담은 것과 겹치는지 알려주고, 여행이 끝나면 **택스리펀 예상액과 귀국 후 재구매 목록**까지 정리해 주는 모바일 웹.
 
-> 추천 시스템이 아닙니다. 새 상품을 제안하지 않고, **이미 고른 것 중에서 빼고(중복·예산 초과 기각),
-> 남은 것을 가장 싸게 사는 조합을 계산**합니다. 성공 지표는 "더 산 돈"이 아니라 **기각 금액(안 쓴 돈)**입니다.
+- 언어: English · 한국어 / 본국 통화: USD · JPY
+- **재판소 판결(R5)**: 오늘 환율로 한국 가격 vs 본국 가격을 비교해 "지금 여기서 사세요 / 본국에서 사세요 / 큰 차이 없음 / 판결 보류(본국 가격 미확인)"를 이유와 함께 선고. 매대 가격이 DB와 다르면 **매대 가격을 직접 입력**해 다시 판결
+- 환율: 서버 시작·6시간마다 ECB 기준 실시간 환율(Frankfurter, 무료·키 없음) 자동 반영, 실패하면 `rules.json` 참고값. 카드 하단에 "실시간 환율/참고 환율 · 기준일" 표시
+- 찾는 방법 두 가지: **① 사진(카메라·갤러리)** 또는 **② 이름 검색** → 결과 목록에서 고르면 상세 페이지
+- DB에 없는 제품은 앱에서 **추가 요청** → 운영자가 `python manage.py requests`로 보고 `approve`/`reject` → 사용자는 리스트 탭 "내 요청"에서 결과(추가됨·추가 안 됨·메모)를 봄
+- 제품 데이터 두 층: 큐레이션 DB 43개(본국 가격·성분 태그 있음, `kbeauty/products.json`) + **올리브영 실시간 검색**(네이버 쇼핑 API, 올리브영 판매 상품만 필터). 실시간 제품은 본국 가격이 없으므로 "아직 DB에 없어요"라고 정직하게 표시하고, 정산에서는 본국 가격이 있는 제품만으로 절약액을 계산
 
-## ChatGPT와 뭐가 다른가 (교수님 질문에 대한 답)
+## ChatGPT와 다른 점 · 추천 시스템이 아닌 이유
 
-| | ChatGPT에 물어보기 | 장바구니 재판소 |
+| | ChatGPT에 사진 보내기 | K-Beauty Scan |
 |---|---|---|
-| 가격 | 링크를 못 열거나 틀린 가격 | 상품 페이지에서 **직접 수집**, 실패 시 캡처 판독 |
-| 결과 | 물어볼 때마다 **다른 의견** | **규칙 엔진 계산** → 같은 입력이면 항상 같은 판결 (테스트로 검증) |
-| 기억 | 내 카드·예산을 매번 설명 | 한 번 저장, 혜택 표는 **기준일**과 함께 보관 |
-| 근거 | 말로 설명 | **근거표**: 적용 규칙·비교 숫자·계산식 → 손으로 검산 가능 |
+| 제품 식별 | 됨 | 됨 (AI, 제품 DB 안에서 고름) |
+| 한국가 vs 본국가 | 모름 / 매번 다름 | **제품 DB + 환율표로 계산**, 같은 입력이면 같은 결과 |
+| 내 쇼핑 리스트 | 없음 | 여행 내내 저장, **이미 담은 것과 중복 경고** |
+| 택스리펀 | 규칙 설명만 | **매장별 합계로 예상 환급액 계산** (₩15,000 기준, 구간 환급률) |
+| 근거 | 말로 설명 | **"How we calculated"**: 모든 숫자의 계산식 공개 |
 
-**AI는 딱 두 곳만** 씁니다. ① 이미지에서 색상·카테고리(·캡처의 상품명·가격) 읽기 ② 계산 결과를 검사·변호사·판사 말투로 바꾸기.
-판결 내용은 AI가 정하지 않습니다 (`cartcourt/engine.py`에는 LLM 호출이 없습니다).
+새 제품을 권하지 않습니다. 손에 든 제품을 번역·판별·비교하는 **통역사**이고, 비슷한 걸 이미 담았거나 본국이 더 싸면 그대로 알려 줍니다(덜 사게 함).
 
-## 실행
+**AI는 한 곳만**: 사진 → 43개 중 어느 제품인지. 가격·피부 적합도·중복·택스리펀은 `kbeauty/engine.py`의 규칙이 계산합니다.
 
-```bash
-cd cart-court
-python3 -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+## 실행 (Windows PowerShell)
+
+```powershell
+python -m venv .venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-cp .env.example .env            # (선택) AI 키 입력. 없어도 동작합니다
-uvicorn app:app --reload --port 8000
-# → http://localhost:8000   (휴대폰에서 보려면 --host 0.0.0.0 후 노트북 IP로 접속)
+pytest                                     # 44 passed
+ruff check .                               # (선택) 린트
+uvicorn app:app --reload --port 8000       # → http://localhost:8000
 ```
 
-- 키 없이: 수집 + 키워드 기반 색상/카테고리 + 템플릿 대사로 전체 흐름이 돕니다.
-- 키 있으면 (`ANTHROPIC_API_KEY` 또는 `OPENAI_API_KEY`): 이미지 색상 분석, 캡처 판독(증거 보강), 개성 있는 대사.
-- `.env`는 절대 커밋하지 마세요 (`.gitignore`에 포함).
+Mac: `source .venv/bin/activate`. 휴대폰으로 보려면 `--host 0.0.0.0` 후 같은 와이파이에서 `http://노트북IP:8000`.
 
-## 저장 구조 (로그인은 나중에)
-
-- **내 장바구니가 계속 저장됩니다.** 링크는 생각날 때 하나씩 추가, 재판은 쌓인 것으로 원할 때.
-- 설정 · 장바구니 · 판결 기록은 서버 SQLite(`data/cartcourt.db`)에 사용자별로 저장됩니다.
-- 지금은 기기마다 **익명 계정**(UUID)을 만들어 `X-User-Id` 헤더로 구분합니다.
-  로그인을 붙일 때는 `app.py`의 `current_user()` 한 함수만 세션/토큰 검증으로 바꾸고,
-  `store.merge_users(익명ID, 로그인ID)`로 기존 기록을 옮기면 됩니다. `users` 테이블에 email/provider 칸을 미리 만들어 두었습니다.
-- **판결 집행**: 판결을 따르기로 하면 허가 상품은 '구매', 기각 상품은 '취하'로 장바구니에서 빠지고
-  누적 "지켜낸 금액"에 더해집니다. 같은 장바구니로 재판을 여러 번 열어도 중복 집계되지 않습니다.
-- 공유 진입: `/?add=상품링크` 로 열면 바로 장바구니에 추가됩니다 (PWA 공유 메뉴 연결은 이후 확장).
-
-## 테스트 (검증 근거 ② "오차 0원")
-
-```bash
-pytest -q            # 10개: 판결 엔진 7개 + 저장 API 3개 (사용자별 분리, 새로고침 유지, 집행 중복 집계 방지)
-python verify.py     # 수집 성공률 측정: urls.txt의 링크를 돌려 성공 개수 기록 (검증 근거 ①)
+**사진 인식을 쓰려면** 프로젝트 폴더에 `.env` 파일을 만들고 넣으세요 (키 없이도 이름 검색으로 전체 흐름은 동작):
 ```
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4o
+```
+`OPENAI_MODEL`을 빼면 `gpt-4o-mini`(저렴, 정확도 낮을 수 있음). Anthropic 키를 쓰려면 `ANTHROPIC_API_KEY=`.
+`.env`는 `.gitignore`에 있어 GitHub에 올라가지 않습니다.
+
+**실제 올리브영 상품 검색을 쓰려면** (무료) [developers.naver.com](https://developers.naver.com) → 애플리케이션 등록 → 사용 API "검색" 체크 → 발급된 Client ID/Secret을 `.env`에:
+```
+NAVER_CLIENT_ID=...
+NAVER_CLIENT_SECRET=...
+```
+키가 없으면 검색 결과에 큐레이션 DB만 나오고 화면에 "실시간 검색이 꺼져 있어요"라고 표시됩니다. `LIVE_OLIVE_YOUNG_ONLY=0`이면 네이버 쇼핑의 모든 몰을 보여줍니다.
+
+## DB에 없는 제품: 이름 + 매대 가격으로 바로 판결 (웹 가격 검색)
+
+검색 결과 아래 "목록에 없나요? 바로 판결받기"에 제품 이름과 매대 가격을 넣으면,
+본국 가격을 웹에서 찾아 같은 규칙으로 판결합니다. GPT·Claude가 인터넷을 검색하는 방식과 같지만, **가격은 AI가 만들지 않습니다.**
+
+1. 검색 API(Tavily)로 "브랜드 + 제품명 + price" 검색 (본국 국가 우선)
+2. 결과 본문에서 가격을 **정규식으로** 추출 — 원문에 실제로 있는 숫자만
+3. 한국 사이트 제외, 제품명이 맞는 결과만, 한국 가격의 0.5~4배 범위만, 도메인당 1개
+4. **서로 다른 출처 2곳 이상**일 때만 중간값을 본국 가격으로 사용, 화면에 출처 링크 표시
+5. 조건을 못 채우면 추측하지 않고 "판결 보류"
+
+키 발급: [tavily.com](https://tavily.com) 가입 → API 키를 `.env`의 `TAVILY_API_KEY=`에. 무료 월 1,000회, 카드 등록 없음. 같은 제품은 하루 동안 다시 검색하지 않아 무료 한도로 충분합니다.
+큐레이션 DB 제품은 웹 검색을 하지 않고 DB 가격을 그대로 씁니다.
+
+## 무료 운영 구성
+
+| 부분 | 무엇으로 | 비용 |
+|---|---|---|
+| 서버 | Render 무료 웹 서비스 (15분 미접속 시 잠들고, 첫 접속 약 1분) | 무료 |
+| 환율 | Frankfurter (ECB 기준환율, 키 없음) | 무료 |
+| 본국 가격 웹 검색 | Tavily 무료 플랜 (월 1,000회) | 무료 |
+| 사진 식별 | OpenAI API (사진 1장당 호출 1회) | 사용량만큼 |
+| 사용자 데이터 | 지금 SQLite. 배포 시 무료 외부 DB로 이전 예정 (무료 호스팅은 파일이 재시작 때 지워짐) | 무료 |
+
+## 데모 영상 자동 녹화
+
+```powershell
+pip install playwright
+playwright install chromium
+uvicorn app:app --port 8000          # 다른 터미널, .env 키 포함
+$env:DEMO_PHOTO="verify/photos/romand-glasting-melting-balm_1.png"   # 사진 인식 장면 (OpenAI 키 필요)
+$env:DEMO_LIVE="토리든 다이브인"                                       # 올리브영 실시간 장면 (네이버 키 필요)
+python verify/record_demo.py          # → verify/demo.mp4 (약 90초, 한글 자막)
+```
+스크립트는 실제 앱을 사용자처럼 눌러 보기만 하고, 아무것도 꾸미지 않습니다.
+
+## 제품 추가 요청 검수 (운영자)
+
+```powershell
+python manage.py requests                       # 검토 대기 목록 (id, 브랜드, 이름, 메모)
+python manage.py skeleton <id>                  # products.json에 붙여 넣을 JSON 틀 출력
+#   → kbeauty/products.json 에 제품 추가 (가격·태그 채우기) → 서버 재시작
+python manage.py approve <id> <product-id> --note "11/06 추가"
+python manage.py reject  <id> --note "단종 제품"
+```
+승인하면 사용자 화면에 "추가됨 · 열기" 버튼이 생겨 바로 상세 페이지로 갑니다.
+
+## 검증
+
+| # | 항목 | 기준 | 방법 |
+|---|---|---|---|
+| ① | 사진 식별 정확도 | 80% 이상 | 실물 사진 5장(DB 안 3 + DB 밖 2)이 `verify/photos/`에 있음 → `python verify/verify_scan.py` → `verify/verify_scan.json`. DB 밖 제품(`none-…`)은 엉뚱한 제품을 확신하지 않으면 통과 |
+| ② | 계산 정확도 | 손계산과 오차 0 | `pytest -q` — 기대값이 전부 손계산 값 (`tests/test_engine.py` 주석) |
+| ③ | 사용자 반응 | "매장에서 쓰겠다" 과반 | `verify/questionnaire.md` — 현재 **AI 대리 평가**(영어 사용자 역할), 발견된 문제 1건 수정 |
 
 ## 구조
 
 ```
-app.py                 FastAPI: /api/me /api/settings /api/items(추가·삭제·보강) /api/judge /api/verdicts(기록·집행)
-cartcourt/store.py     SQLite 저장소: users · settings · items · verdicts (로그인 확장용 구조)
-cartcourt/engine.py    판결 엔진 (순수 함수, AI 없음)  R1 중복 → R2 가격·혜택 → R3 예산 내 최적 조합 → 근거표
-cartcourt/scraper.py   공유 링크 → OG/JSON-LD → 상품명·가격·이미지 (무신사·29CM 확인됨, 쿠팡 403 → 증거 보강)
-cartcourt/ai.py        Vision(색상·카테고리·캡처 판독) + Voice(말투). 키 없으면 규칙 기반 대체
-cartcourt/benefits.json  플랫폼 × 결제수단 혜택 표 (as_of 기준일 포함) ← 시연 전 실제 값으로 갱신
-cartcourt/sample_cart.json 시연 장바구니
-static/index.html      모바일 웹 UI (설정 → 증거 제출 → 공판 → 판결문 → 근거표 → 이미지 저장)
-tests/test_engine.py   엔진 테스트
-verify.py              수집 성공률 측정 스크립트
+manage.py              운영자 콘솔 — 제품 추가 요청 검수 (승인/반려/JSON 틀)
+app.py                 HTTP 계층 (FastAPI). 요청 검증(pydantic), 응답 조립만. 도메인 로직 없음
+kbeauty/config.py      Settings (환경변수·.env → 불변 객체)
+kbeauty/catalog.py     Product · Rules 타입 + 검증 로더 (Catalog)
+kbeauty/engine.py      계산 엔진 — 순수 함수, dataclass 결과, 근거 문자열. AI 없음
+kbeauty/vision.py      식별 — TextSearch(결정론) · VisionIdentifier(OpenAI/Anthropic 교체 가능) · 이미지 검증
+kbeauty/fx.py          실시간 환율 — Frankfurter(ECB) 클라이언트, TTL 캐시, 실패 시 rules.json 유지
+kbeauty/webprice.py    웹 가격 검색 — Tavily 클라이언트, 정규식 가격 추출, 출처 2곳 이상 규칙, 하루 캐시
+kbeauty/sources.py     실시간 소스 — 네이버 쇼핑 API 클라이언트, 올리브영 필터, 제목→카테고리/성분 태그(키워드 표), TTL 캐시
+kbeauty/i18n.py        en/ko 번역표, 규칙 기반 설명 문장
+kbeauty/store.py       SQLite 저장소 클래스 (UNIQUE 제약·FK·트랜잭션, 로그인 전환용 merge_users)
+kbeauty/products.json  제품 43개 / kbeauty/rules.json 환율·택스리펀·중복 규칙 (기준일 포함)
+static/index.html      마크업만 / static/app.js  api → state → render → events / static/i18n.js  UI 문자열 / static/styles.css
+tests/                 25개: 엔진(손계산 대조) · 식별(가짜 provider로 파싱·폴백) · API(검증·사용자 분리)
+verify/                식별 정확도 스크립트 · 사용자 질문지
+.github/workflows/ci.yml  push마다 ruff + pytest
 ```
 
-## 판결 규칙 (엔진)
+### 설계 원칙
+- **AI 경계를 코드로 고정**: LLM은 `vision.py`의 `VisionProvider` 인터페이스 뒤에만 있고, 반환값은 "카탈로그 id + 확신도"뿐. 가격·성분·적합도는 LLM이 만들 수 없음
+- **결정론**: `engine.py`는 입력이 같으면 출력이 같음. 모든 숫자에 계산식(`evidence`)이 붙어 검산 가능
+- **입력 검증**: pydantic 모델(언어·통화 Literal, 수량 범위, 스캔 입력 '정확히 하나'), 이미지는 base64·크기 검증 후에만 외부 API로
+- **교체 가능**: 설정·카탈로그·저장소·식별기를 `AppState`에 모아 주입. 테스트는 임시 DB + 가짜 provider로 네트워크 없이 실행
+- **품질 게이트**: `ruff check .` 0건, CI에서 자동 실행
 
-1. **R1 중복**: 같은 카테고리 + 색상 거리 ≤ 0.18 → 한 묶음. 묶음당 **개별 최종가(표시가 − 보유 혜택)** 최저 1개만 생존, 나머지 기각.
-2. **R2 가격·혜택**: 플랫폼별 장바구니 합계에 보유 결제수단 혜택(%/정액, 최소금액, 상한) 적용 → 최종가.
-3. **R3 조합**: 예산 이내 조합을 전수 비교(≤12개) → **절약액 최대**, 동률이면 상품 수 多 → 총액 少. 밖은 예산 초과 기각.
-4. **소수의견**: 미보유 결제수단이 더 이득이면 금액과 함께 표시.
-5. 출력: 주문(허가/기각), 결제 총액, 혜택 절약, **기각 금액**, 이유, 근거표.
+## 이전 프로젝트(장바구니 재판소)에서 옮겨 쓴 것
+SQLite 사용자별 저장 구조(store.py), 이미지 AI 호출 구조(ai.py), "같은 종류 + 겹치는 속성 → 중복" 판정 아이디어, 규칙 엔진 + 근거표 방식, 흰 배경·블랙·은색 테두리 디자인.
 
-## 이번에 하지 않은 것 → 기말까지
+## 하지 않은 것 → 기말까지
+일본어·중국어 화면(데이터는 이미 있음, 화면 문구만 추가하면 됨) · 실사용자 평가 3명 · 실시간 제품의 본국 가격(해외 판매가 소스 연결) · 실시간 제품 성분 상세(현재는 제목 키워드 태그만) · 환율 자동 갱신 · 역직구 재구매 링크 연결 · 매장 선택(다이소·백화점) · 무료 주소 배포(Render/Vercel) · 소스 공개.
 
-PWA 공유 메뉴·iOS 단축어, 리뷰 분석, 집행유예·계류 사건·정상참작·재심, 지그재그·쿠팡 자동 수집(앱 전용/차단), 계정 연결, 실제 결제.
-공개 계획: Vercel/Render 등 무료 주소에 배포 + 소스 공개(GitHub).
+## 데이터 출처
+- 실시간 상품(이름·가격·이미지·판매 링크): 네이버 쇼핑 검색 API, 판매처 이름에 "올리브영"이 들어간 상품만. 올리브영 사이트 직접 접근은 봇 차단(403)이라 쓰지 않음
+- 택스리펀 규칙(최소 ₩15,000, 즉시환급 1회 ₩1,000,000 미만·총 ₩5,000,000, 구간 환급률): namanecard 2026 가이드 — 근사치, 시연 전 확인
+- 환율: 실시간은 Frankfurter(ECB 기준환율, api.frankfurter.dev) · 참고값은 Banque de France 2026-11-02 EUR 기준 교차환율 (`LIVE_FX=0`이면 참고값만)
+- 제품 가격: 올리브영 정가·해외 온라인 판매가 대략값 — **시연 전 실제 값으로 확인**

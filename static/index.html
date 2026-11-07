@@ -1,484 +1,76 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>장바구니 재판소</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<style>
-:root{
-  --bg:#FCFCFB; --ink:#000000; --ink2:#6B6F7A; --line:#E9E8E4;
-  --silver:linear-gradient(120deg,#F7F7F8 0%,#C9CCD2 18%,#FFFFFF 34%,#A9AEB6 50%,#F2F3F5 66%,#C0C4CB 82%,#FFFFFF 100%);
-  --glass:rgba(255,255,255,.62); --glass2:#FFFFFF; --blur:blur(20px) saturate(160%);
-  --mint:#CFE8DD; --mint-d:#1F7A5C; --rose:#F6D5DA; --rose-d:#B8333F; --lav:#E3E6F5; --peach:#F6E7DF; --sky:#DCE6F5;
-  --shadow:0 2px 14px rgba(0,0,0,.05);
-  --serif:'Nanum Myeongjo',serif; --sans:-apple-system,BlinkMacSystemFont,'IBM Plex Sans KR',system-ui,sans-serif; --r:20px;
-  --paper:var(--bg); --paper2:#fff; --navy:var(--ink); --blue:var(--mint-d); --rust:var(--rose-d); --gold:var(--lav);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
-body{max-width:520px;margin:0 auto;min-height:100vh;padding:0 16px calc(110px + env(safe-area-inset-bottom));position:relative}
-header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px 4px 12px;margin:0 -16px;padding-left:20px;padding-right:20px;background:rgba(252,252,251,.72);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid rgba(0,0,0,.08)}
-header .brand{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:-.01em}
-header .brand small{display:block;font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.22em;color:var(--ink2);margin-top:2px}
-.gavel-btn{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:12px;color:var(--ink);box-shadow:var(--shadow)}
-.view{display:none;padding-top:14px}
-.view.on{display:block;animation:fade .4s ease}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-h2.sec{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1.3;margin:10px 0 6px}
-h2.sec em{font-style:normal;color:var(--rose-d)}
-p.sub{font-size:13px;color:var(--ink2);margin-bottom:16px;line-height:1.65}
-.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
-textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:var(--r);padding:14px;font:14px/1.5 var(--sans);background:#fff;resize:vertical;box-shadow:var(--shadow);outline:none}
-textarea:focus{border-color:var(--ink)}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.row.float{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));width:min(520px,100%);padding:10px 16px;margin:0;z-index:30;background:rgba(252,252,251,.6);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid rgba(0,0,0,.06)}
-button.primary{flex:1;background:rgba(0,0,0,.92);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);color:#fff;border-radius:999px;padding:15px;font:600 15px var(--sans);letter-spacing:.02em;box-shadow:0 10px 24px rgba(43,42,46,.22)}
-button.ghost{background:rgba(255,255,255,.85);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);color:var(--ink);border-radius:999px;padding:12px 16px;font:500 13px var(--sans)}
-button:disabled{opacity:.5}
-/* 반짝이는 은색 테두리 (센추리 모던 메탈) */
-.silver{position:relative;border:none!important;isolation:isolate}
-.silver:before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:var(--silver);background-size:300% 300%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:shine 6s linear infinite;z-index:1}
-.silver:after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 6px 16px rgba(0,0,0,.08);pointer-events:none;z-index:0}
-@keyframes shine{0%{background-position:0% 50%}100%{background-position:300% 50%}}
-
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;cursor:pointer;user-select:none}
-.chip.on{background:var(--ink);color:#fff;font-weight:600;border-color:var(--ink)}
-.chip.on.silver{background:var(--ink)}
-label.lbl{display:block;font-size:11px;font-weight:600;color:var(--ink2);letter-spacing:.1em;margin-bottom:8px}
-input[type=range]{width:100%;accent-color:var(--ink)}
-.budget{font-family:var(--serif);font-size:30px;font-weight:700;text-align:right}
-/* 상품 카드 */
-.item{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.item img,.item .ph{width:56px;height:56px;border-radius:16px;object-fit:cover;background:linear-gradient(135deg,#fff,#F2EDE4);flex:none;display:flex;align-items:center;justify-content:center;font-size:22px}
-.item .meta{flex:1;min-width:0}
-.item .name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item .info{font-size:12px;color:var(--ink2);margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.swatch{display:inline-block;width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.12);vertical-align:-1px}
-.tag{font-size:10px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.8);color:var(--ink2);border:1px solid var(--line)}
-.tag.warn{background:#FBE3E8;color:var(--rose-d)} .tag.ai{background:var(--lav);color:#3E4A8A}
-.item .price{font-family:var(--serif);font-weight:700;font-size:15px;white-space:nowrap}
-.item.fail{background:#FBF4F5;border-color:#F0D3D8}
-.item .fix{margin-top:6px} .item .fix button{font-size:12px;padding:6px 10px}
-.stamp{position:absolute;right:10px;top:8px;transform:rotate(-12deg);font-family:var(--serif);font-weight:800;font-size:13px;padding:3px 9px;border:2px solid;border-radius:6px;opacity:0;letter-spacing:.08em;background:rgba(255,255,255,.7);backdrop-filter:blur(6px)}
-.stamp.show{animation:slam .45s cubic-bezier(.2,1.6,.4,1) forwards}
-.stamp.ok{color:var(--mint-d);border-color:var(--mint-d)} .stamp.no{color:var(--rose-d);border-color:var(--rose-d)}
-@keyframes slam{0%{opacity:0;transform:rotate(-12deg) scale(2.2)}70%{opacity:1;transform:rotate(-12deg) scale(.95)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
-.progress{font-size:12px;color:var(--ink2);margin-top:8px;letter-spacing:.04em}
-/* 법정 */
-.court{position:relative}
-.bubble{max-width:88%;padding:13px 16px;border-radius:22px;margin-bottom:10px;font-size:14px;line-height:1.6;opacity:0;transform:translateY(8px);transition:.35s;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);box-shadow:var(--shadow)}
-.bubble.show{opacity:1;transform:none}
-.bubble .who{font-size:11px;font-weight:700;letter-spacing:.12em;margin-bottom:4px}
-.pros{background:#FBEFF1;border-color:#F0D3D8;border-bottom-left-radius:6px;margin-right:auto} .pros .who{color:var(--rose-d)}
-.law{background:#EEF6F2;border-color:#CFE3D9;border-bottom-right-radius:6px;margin-left:auto} .law .who{color:var(--mint-d)}
-.jdg{background:var(--ink);color:#fff;max-width:100%;text-align:center;border-radius:var(--r);font-family:var(--serif);border:0} .jdg .who{color:#C9B27A}
-.gavel{height:150px;padding-top:30px;display:flex;align-items:center;justify-content:center;position:relative;margin:22px 0 0}
-.gavel svg{width:96px;height:96px;transform-origin:70% 70%}
-.gavel.hit svg{animation:bang .55s ease 3}
-@keyframes bang{0%{transform:rotate(-35deg)}40%{transform:rotate(12deg)}55%{transform:rotate(8deg)}100%{transform:rotate(-35deg)}}
-.boom{position:absolute;font-family:var(--serif);font-weight:800;font-size:28px;color:var(--rose-d);opacity:0;left:50%;top:-14px;transform:translateX(-50%)}
-.boom.show{animation:pop .5s ease forwards}
-@keyframes pop{0%{opacity:0;transform:translateX(-50%) scale(.6)}30%{opacity:1;transform:translateX(-50%) scale(1.2)}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-/* 결과 화면 */
-.offscreen{position:absolute;left:-10000px;top:0;width:430px}
-.result{animation:fade .4s ease}
-.headline{text-align:center;padding:16px 10px 6px}
-.headline .big{font-family:var(--serif);font-weight:700;font-size:30px;line-height:1.25}
-.headline .big em{font-style:normal;color:var(--rose-d)}
-.headline .case{font-size:11px;letter-spacing:.14em;color:var(--ink2);margin-top:8px}
-.kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 6px;text-align:center;box-shadow:var(--shadow)}
-.kpi small{display:block;font-size:10px;letter-spacing:.08em;color:var(--ink2);margin-bottom:4px}
-.kpi b{font-family:var(--serif);font-size:17px;font-weight:700}
-.kpi.hero{grid-column:1/-1;padding:22px 18px;position:relative;overflow:hidden;background:var(--ink);color:#fff}
-.kpi.hero>*{position:relative;z-index:1}
-.kpi.hero small{color:#C9B27A;font-size:11px}
-.kpi.hero b{font-size:42px;letter-spacing:-.01em;color:#fff}
-.kpi.hero .sub2{font-size:12px;color:rgba(255,255,255,.75);margin-top:6px}
-.shield{height:6px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:14px;overflow:hidden}
-.shield i{display:block;height:100%;width:0;background:#C9B27A;transition:width 1.4s ease}
-.sec-t{font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--ink2);margin:18px 0 8px}
-.receipt{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;font-size:13px;position:relative;box-shadow:var(--shadow)}
-.receipt .top{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:15px;font-family:var(--serif)}
-.receipt .mid{color:var(--ink2);margin:6px 0;line-height:1.5}
-.receipt .pay{display:inline-block;background:var(--ink);color:#fff;box-shadow:0 0 0 1.5px #C9CCD2,0 0 0 2.5px #fff;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;font-family:var(--sans)}
-.receipt .tot{display:flex;justify-content:space-between;border-top:1px dashed rgba(43,42,46,.2);margin-top:8px;padding-top:8px;font-family:var(--serif);font-weight:700;font-size:15px}
-.receipt .tot s{color:var(--ink2);font-weight:400;font-size:12px;margin-right:6px}
-.ritem{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;opacity:0;transform:translateX(-12px);transition:.35s;box-shadow:var(--shadow)}
-.ritem.show{opacity:1;transform:none}
-.ritem.no{background:#FBF4F5;border-color:#F0D3D8}
-.ritem.no .nm{text-decoration:line-through;color:var(--ink2)}
-.ritem img,.ritem .ph{width:48px;height:48px;border-radius:14px;object-fit:cover;background:linear-gradient(135deg,#fff,#F2EDE4);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
-.ritem .nm{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ritem .why{font-size:11px;color:var(--ink2);margin-top:2px;line-height:1.4}
-.ritem .pr{font-family:var(--serif);font-weight:700;white-space:nowrap;font-size:14px}
-.ritem .stamp{top:auto;bottom:4px;left:4px;right:auto;font-size:11px;padding:2px 6px}
-.minor{font-family:var(--sans);font-size:12px;background:#FFF8E6;border:1px dashed #C9B27A;padding:9px 12px;border-radius:14px;margin-top:10px;color:#6B5420}
-.note{font-family:var(--sans);font-size:11px;color:var(--ink2);margin-top:10px}
-/* 근거표 */
-details.ev{margin-top:12px}
-details.ev summary{cursor:pointer;font-weight:600;font-size:14px;padding:10px 0}
-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-th,td{border-bottom:1px solid rgba(43,42,46,.08);padding:8px 7px;text-align:left;vertical-align:top;line-height:1.45}
-th{background:rgba(255,255,255,.7);font-weight:600;letter-spacing:.04em}
-td.r{white-space:nowrap;font-weight:700} td.r.ok{color:var(--mint-d)} td.r.no{color:var(--rose-d)}
-/* 저장용 공식 판결문 (명조, 종이) */
-.verdict{background:#FFFDF8;border:1.5px solid var(--ink);padding:22px 18px 18px;position:relative;font-family:var(--serif)}
-.verdict::before{content:"";position:absolute;inset:6px;border:1px solid #D9D1C0;pointer-events:none}
-.verdict .court-name{text-align:center;font-size:12px;letter-spacing:.3em;color:var(--ink2)}
-.verdict h1{text-align:center;font-size:30px;letter-spacing:.6em;text-indent:.6em;font-weight:800;margin:4px 0 12px}
-.verdict .kv{font-size:12.5px;color:var(--ink2);line-height:1.8;border-top:1px solid var(--ink);border-bottom:1px solid #D9D1C0;padding:8px 0;margin-bottom:12px}
-.verdict h3{font-size:15px;letter-spacing:.4em;margin:12px 0 6px}
-.verdict ol{padding-left:20px;font-size:14px;line-height:1.75}
-.verdict ol li.ok b{color:var(--mint-d)} .verdict ol li.no b{color:var(--rose-d)}
-.verdict .reason{font-size:13px;line-height:1.75;color:var(--ink2)}
-.verdict .sum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:14px 0 8px;text-align:center}
-.verdict .sum div{background:#F4EFE4;border-radius:8px;padding:8px 4px}
-.verdict .sum small{display:block;font-family:var(--sans);font-size:10px;color:var(--ink2);letter-spacing:.08em}
-.verdict .sum b{font-size:17px} .verdict .sum .big b{color:var(--rose-d);font-size:20px}
-.verdict .foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:12.5px;line-height:1.7}
-.seal{width:56px;height:56px;border:2px solid var(--rose-d);border-radius:50%;color:var(--rose-d);display:flex;align-items:center;justify-content:center;font-size:12px;line-height:1.1;text-align:center;font-weight:800;transform:rotate(-8deg);opacity:0}
-.seal.show{animation:slam .5s .2s cubic-bezier(.2,1.6,.4,1) forwards}
-.bigstamp{position:absolute;right:14px;top:30px;font-size:17px;padding:5px 10px;transform:rotate(-14deg)}
-
-/* 탭 · 추가바 · 기록 */
-.tabs{display:flex;gap:2px;background:rgba(0,0,0,.05);border-radius:999px;padding:3px}
-.tabs button{border:0;background:none;padding:7px 11px;border-radius:999px;font:500 12px var(--sans);color:var(--ink2)}
-.tabs button.on{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.addbar{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 16px;box-shadow:var(--shadow)}
-.addbar input{flex:1;border:0;outline:none;font:14px var(--sans);background:none;min-width:0}
-.addbar button.primary{flex:none;padding:10px 18px;font-size:14px}
-.cart-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin:14px 2px 8px}
-.cart-meta a{cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-.item .x{position:absolute;right:8px;top:6px;border:0;background:none;font-size:18px;color:var(--ink2);width:24px;height:24px;border-radius:50%;line-height:1}
-.item .x:hover{background:rgba(0,0,0,.06)}
-.item .price{margin-right:22px}
-.item .stamp{right:36px}
-.empty{text-align:center;color:var(--ink2);font-size:13px;line-height:1.7;padding:36px 10px;border:1px dashed var(--line);border-radius:var(--r);background:#fff}
-.saved-banner{margin-top:14px;padding:12px 16px;border-radius:999px;background:#000;color:#fff;font-size:13px;display:flex;align-items:center;gap:8px}
-.saved-banner b{color:#E6CF8E;font-family:var(--serif);font-size:16px}
-.saved-banner small{margin-left:auto;opacity:.7}
-.hist{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;cursor:pointer;box-shadow:var(--shadow)}
-.hist .hc{font-weight:700;font-size:14px;display:flex;gap:6px;align-items:center}
-.hist .hd{font-size:12px;color:var(--ink2);margin-top:3px}
-.hist .hr{text-align:right}.hist .hr b{display:block;font-family:var(--serif);font-size:15px}.hist .hr small{font-size:11px;color:var(--mint-d)}
-.tag.ok{background:#E3F1EA;color:var(--mint-d);border-color:#CFE3D9}
-header .brand{font-size:17px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:rgba(0,0,0,.88);backdrop-filter:var(--blur);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;transition:.3s;pointer-events:none}
-.toast.show{opacity:1}
-.hidden{display:none!important}
-</style>
+<meta name="theme-color" content="#FCFCFB">
+<title>K-Beauty Scan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 </head>
 <body>
 <header>
-  <div class="brand">장바구니 재판소<small>THE CART COURT</small></div>
-  <nav class="tabs">
-    <button data-v="cart" onclick="go('cart')">장바구니</button>
-    <button data-v="history" onclick="go('history')">기록</button>
-    <button data-v="settings" onclick="go('settings')">설정</button>
+  <div class="brand">K-Beauty Scan<small>SEOUL SHOPPING BUDDY</small></div>
+  <nav class="tabs" role="tablist">
+    <button data-v="scan" data-i="tabScan">Scan</button>
+    <button data-v="list"><span data-i="tabList">List</span><span class="badge hidden" id="badge"></span></button>
+    <button data-v="trip" data-i="tabTrip">Trip</button>
+    <button data-v="setup" aria-label="Settings">⚙︎</button>
   </nav>
 </header>
 
-<!-- 설정 -->
-<section id="v-settings" class="view">
-  <h2 class="sec">재판 전 <em>준비</em></h2>
-  <p class="sub">한 번만 고르면 저장됩니다. 판사는 <b>보유한 결제수단 안에서만</b> 판결합니다.</p>
-  <div class="card">
-    <label class="lbl">보유 카드 · 간편결제</label>
-    <div class="chips" id="pay-chips"></div>
-  </div>
-  <div class="card">
-    <label class="lbl">이번에 쓸 수 있는 남은 금액</label>
-    <div class="budget" id="budget-view">200,000원</div>
-    <input type="range" id="budget" min="30000" max="1000000" step="10000" value="200000" oninput="budgetChanged()">
-    <div class="chips">
-      <span class="chip" onclick="setBudget(50000)">5만</span><span class="chip" onclick="setBudget(100000)">10만</span>
-      <span class="chip" onclick="setBudget(200000)">20만</span><span class="chip" onclick="setBudget(300000)">30만</span><span class="chip" onclick="setBudget(500000)">50만</span>
-    </div>
-  </div>
-  <div class="row"><button class="primary silver" onclick="saveSettings()">저장</button></div>
-  <p class="note">로그인 없이 이 기기에 계정이 만들어져 서버에 저장됩니다. 로그인 기능이 생기면 지금 기록을 그대로 옮길 수 있습니다.</p>
+<section id="v-setup" class="view" role="tabpanel">
+  <h2 data-i="setupTitle"></h2>
+  <p class="sub" data-i="setupSub"></p>
+  <div class="card"><span class="lbl" data-i="language"></span>
+    <div class="chips" id="c-lang" role="radiogroup"><span class="chip" data-v="en">English</span><span class="chip" data-v="ko">한국어</span></div></div>
+  <div class="card"><span class="lbl" data-i="homeCurrency"></span>
+    <div class="chips" id="c-cur" role="radiogroup"><span class="chip" data-v="USD">USD $</span><span class="chip" data-v="JPY">JPY ¥</span></div></div>
+  <div class="card"><span class="lbl" data-i="skinType"></span>
+    <div class="chips" id="c-skin" role="radiogroup"><span class="chip" data-v="dry"></span><span class="chip" data-v="oily"></span><span class="chip" data-v="combination"></span><span class="chip" data-v="sensitive"></span></div></div>
+  <div class="float"><button class="primary silver" id="btn-save-profile" data-i="start"></button></div>
 </section>
 
-<!-- 내 장바구니 -->
-<section id="v-cart" class="view">
-  <div class="saved-banner" id="saved-banner"></div>
-  <h2 class="sec">내 <em>장바구니</em></h2>
-  <p class="sub">보다가 마음에 드는 상품 링크를 그때그때 하나씩 넣어 두세요. 계속 저장되고, 재판은 원할 때 엽니다.</p>
-  <div class="addbar">
-    <input id="link" inputmode="url" placeholder="상품 링크 붙여넣기" onkeydown="if(event.key==='Enter')addLink()">
-    <button class="primary silver" id="btn-add" onclick="addLink()">추가</button>
+<section id="v-scan" class="view" role="tabpanel">
+  <h2 data-i="scanTitle"></h2>
+  <p class="sub" data-i="scanSub"></p>
+  <div class="capture">
+    <button class="cam silver" id="btn-camera">
+      <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg></div>
+      <b data-i="takePhoto"></b><span data-i="takePhotoSub"></span>
+    </button>
+    <button class="cam alt silver" id="btn-gallery">
+      <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 16l4.5-4.5L13 16l2.5-2.5L20 18"/><circle cx="15.5" cy="9.5" r="1.5"/></svg></div>
+      <b data-i="fromGallery"></b><span data-i="fromGallerySub"></span>
+    </button>
   </div>
-  <div class="cart-meta"><span id="cart-count"></span><span><a onclick="addSample()">시연 상품 넣기</a> · <a onclick="clearItems()">전체 비우기</a></span></div>
-  <div id="items"></div>
-  <div class="empty hidden" id="empty">아직 증거가 없습니다.<br>쇼핑앱에서 <b>공유 → 링크 복사</b> 후 위에 붙여 넣어 보세요.</div>
-  <div class="row float hidden" id="open-row">
-    <button class="primary silver" onclick="openCourt()">⚖︎ 재판 개정 <span id="open-count"></span></button>
-  </div>
-  <p class="note" id="budget-line"></p>
+  <input type="file" id="file-camera" accept="image/*" capture="environment" class="hidden">
+  <input type="file" id="file-gallery" accept="image/*" class="hidden">
+  <div class="or" data-i="or"></div>
+  <form class="searchbar" id="search-form"><input id="q" placeholder="e.g. Anua toner, 조선미녀" autocomplete="off">
+    <button type="submit" class="primary silver" data-i="find"></button></form>
+  <div class="loading" id="loading"><div class="spin"></div><span data-i="reading"></span></div>
+  <div id="result" aria-live="polite"></div>
 </section>
 
-<!-- 법정 -->
-<section id="v-court" class="view">
-  <h2 class="sec">공판 <em>진행 중</em></h2>
-  <p class="sub" id="case-line"></p>
-  <div class="court" id="court"></div>
-  <div class="gavel hidden" id="gavel">
-    <div class="boom" id="boom">땅! 땅! 땅!</div>
-    <svg viewBox="0 0 100 100" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M22 78 L58 42"/><rect x="50" y="18" width="34" height="20" rx="4" transform="rotate(45 67 28)" fill="#000"/><path d="M12 88 H52"/>
-    </svg>
-  </div>
-  <div id="verdict-wrap" class="hidden">
-    <div class="result" id="result"></div>
-    <details class="ev" id="ev"></details>
-    <div class="row float">
-      <button class="primary silver" id="btn-accept" onclick="acceptVerdict()">⚖︎ 판결 집행</button>
-      <button class="ghost silver" onclick="saveImage()">📜 저장</button>
-      <button class="ghost silver" onclick="go('cart')">닫기</button>
-    </div>
-  </div>
+<section id="v-list" class="view" role="tabpanel">
+  <h2 data-i="listTitle"></h2>
+  <p class="sub" data-i="listSub"></p>
+  <div id="list"></div>
+  <div class="reqs" id="requests"></div>
+  <div class="float hidden" id="list-cta"><button class="primary silver" data-go="trip" data-i="seeTrip"></button></div>
 </section>
 
-<!-- 기록 -->
-<section id="v-history" class="view">
-  <h2 class="sec">판결 <em>기록</em></h2>
-  <div class="kpis" id="totals"></div>
-  <div id="history"></div>
+<section id="v-trip" class="view" role="tabpanel">
+  <h2 data-i="tripTitle"></h2>
+  <div id="trip"></div>
+  <div class="float hidden" id="trip-cta"><button class="primary silver" id="btn-save-image" data-i="saveImage"></button><button class="ghost silver" data-go="scan" data-i="keepShopping"></button></div>
 </section>
-<!-- 저장 전용 공식 판결문 (화면 밖) -->
-<div class="offscreen"><div class="verdict" id="verdict"></div></div>
 
-<div class="toast" id="toast"></div>
+<div class="offscreen" aria-hidden="true"><div class="receipt" id="receipt"></div></div>
+<div class="toast" id="toast" role="status"></div>
 
-<script>
-const $=s=>document.querySelector(s);
-const PLAT={musinsa:'무신사','29cm':'29CM',zigzag:'지그재그',coupang:'쿠팡',ably:'에이블리'};
-const CAT_ICON={top:'👕',outer:'🧥',bottom:'👖',dress:'👗',bag:'👜',shoes:'👟',acc:'🧦',unknown:'🛍️'};
-const won=n=>Number(n||0).toLocaleString('ko-KR')+'원';
-const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let BEN=null, items=[], settings=null, totals=null, currentVerdict=null;
-
-/* ---- 사용자 (지금은 기기별 익명 ID, 나중에 로그인으로 교체) ---- */
-let UID=null; try{UID=localStorage.getItem('cc.uid')}catch(e){}
-async function api(path,opt={}){
-  const r=await fetch(path,{...opt,headers:{'content-type':'application/json',...(UID?{'X-User-Id':UID}:{}),...(opt.headers||{})}});
-  if(!r.ok){let m='오류가 났습니다';try{m=(await r.json()).detail||m}catch(e){};throw new Error(m)}
-  return r.json();
-}
-
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
-function showView(v){document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));$('#v-'+v).classList.add('on');
-  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));window.scrollTo(0,0)}
-function go(v){showView(v); if(v==='history') loadHistory(); if(v==='cart') render();}
-
-/* ---- 시작 ---- */
-async function init(){
-  BEN=await api('/api/benefits');
-  const me=await api('/api/me');
-  if(me.user_id!==UID){UID=me.user_id;try{localStorage.setItem('cc.uid',UID)}catch(e){}}
-  settings=me.settings; items=me.items; totals=me.totals;
-  const box=$('#pay-chips');
-  BEN.payments.forEach(p=>{const c=document.createElement('span');c.className='chip';c.textContent=p.label;c.dataset.id=p.id;
-    c.onclick=()=>{c.classList.toggle('on');c.classList.toggle('silver',c.classList.contains('on'))};box.appendChild(c)});
-  settings.payments.forEach(id=>{const c=box.querySelector(`[data-id="${id}"]`);c&&c.classList.add('on','silver')});
-  $('#budget').value=settings.budget;budgetChanged();budgetLine();render();
-  // 공유 링크로 들어온 경우: /?add=URL  (나중에 PWA 공유 대상과 연결)
-  const add=new URLSearchParams(location.search).get('add')||new URLSearchParams(location.search).get('url')||new URLSearchParams(location.search).get('text');
-  if(add){history.replaceState(null,'','/');showView('cart');$('#link').value=add;await addLink();return}
-  showView(settings.configured?'cart':'settings');
-}
-
-/* ---- 설정 ---- */
-function budgetChanged(){$('#budget-view').textContent=won($('#budget').value)}
-function setBudget(v){$('#budget').value=v;budgetChanged()}
-async function saveSettings(){
-  const pays=[...document.querySelectorAll('#pay-chips .chip.on')].map(c=>c.dataset.id);
-  if(!pays.length) return toast('결제수단을 하나 이상 골라 주세요');
-  settings=await api('/api/settings',{method:'PUT',body:JSON.stringify({payments:pays,budget:+$('#budget').value})});
-  budgetLine();go('cart');toast('저장했습니다');
-}
-function budgetLine(){ if(settings) $('#budget-line').textContent=`예산 ${won(settings.budget)} · 보유 ${settings.payments.length}개 결제수단 · 혜택 기준일 ${BEN?BEN.as_of:''}` }
-
-/* ---- 장바구니 ---- */
-async function addLink(){
-  const urls=$('#link').value.split(/\s+/).map(s=>s.trim()).filter(s=>/^https?:\/\//.test(s));
-  if(!urls.length) return toast('상품 링크를 붙여 넣어 주세요');
-  $('#btn-add').disabled=true;
-  for(const u of urls){
-    $('#btn-add').textContent='수집 중…';
-    try{const d=await api('/api/items',{method:'POST',body:JSON.stringify({url:u})});
-      items=items.filter(i=>i.id!==d.id).concat(d); render();
-      toast(d.ok?`증거 확보 · ${d.name}`:'수집이 막혔어요. 캡처로 보강해 주세요');
-    }catch(e){toast(e.message)}
-  }
-  $('#btn-add').disabled=false;$('#btn-add').textContent='추가';$('#link').value='';
-}
-async function addSample(){items=await api('/api/items/sample',{method:'POST'});render();toast('시연 상품을 넣었습니다')}
-async function removeItem(id){await api('/api/items/'+id,{method:'DELETE'});items=items.filter(i=>i.id!==id);render()}
-async function clearItems(){if(!items.length)return;if(!confirmInline())return;await api('/api/items',{method:'DELETE'});items=[];render()}
-let _clr=0;function confirmInline(){if(Date.now()-_clr<2500)return true;_clr=Date.now();toast('한 번 더 누르면 전체 비우기');return false}
-function render(){
-  const box=$('#items');box.innerHTML='';
-  items.forEach(it=>{
-    const el=document.createElement('div');el.className='item'+(it.ok?'':' fail');el.id='it-'+it.id;
-    const ic=CAT_ICON[it.category]||'🛍️';
-    const img=it.image?`<img src="${esc(it.image)}" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=ph>${ic}</div>'">`:`<div class="ph">${it.ok?ic:'❓'}</div>`;
-    const src=it.source==='screenshot'?'<span class="tag ai">캡처 판독</span>':it.source==='sample'?'<span class="tag">시연</span>':'';
-    el.innerHTML=(it.ok?`${img}<div class="meta"><div class="name">${esc(it.name)}</div>
-      <div class="info"><span class="swatch" style="background:${esc(it.color_hex)}"></span>${esc(it.color_name)} <span class="tag">${PLAT[it.platform]||esc(it.platform)}</span>${src}</div></div>
-      <div class="price">${won(it.price)}</div>`
-    :`<div class="ph">❓</div><div class="meta"><div class="name">${esc(it.name)||'상품 정보 수집 실패'}</div>
-      <div class="info"><span class="tag warn">${PLAT[it.platform]||esc(it.platform)}</span><span class="tag warn">${esc(it.reason)}</span></div>
-      <div class="fix"><button class="ghost silver" onclick="$('#f-${it.id}').click()">🔍 증거 보강 수사 (캡처 올리기)</button>
-      <input type="file" accept="image/*" id="f-${it.id}" class="hidden" onchange="enrich('${it.id}',this)"></div></div>`)
-      +`<button class="x" title="삭제" onclick="removeItem('${it.id}')">×</button><div class="stamp"></div>`;
-    box.appendChild(el);
-  });
-  const ok=items.filter(i=>i.ok).length;
-  $('#cart-count').textContent=items.length?`증거 ${items.length}건 · 재판 가능 ${ok}건`:'';
-  $('#empty').classList.toggle('hidden',items.length>0);
-  $('#open-row').classList.toggle('hidden',!ok);
-  $('#open-count').textContent=ok?`· ${ok}건`:'';
-  $('#saved-banner').innerHTML=totals&&totals.saved?`지금까지 지켜낸 금액 <b>${won(totals.saved)}</b> <small>집행 ${totals.executed}회</small>`:'';
-  $('#saved-banner').classList.toggle('hidden',!(totals&&totals.saved));
-}
-async function enrich(id,input){
-  const f=input.files[0]; if(!f) return;
-  const b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
-  toast('증거 보강 수사 중…');
-  try{const d=await api(`/api/items/${id}/enrich`,{method:'POST',body:JSON.stringify({id,screenshot_b64:b64})});
-    items=items.map(i=>i.id===id?{...i,...d}:i);render();toast('증거 보강 완료')}catch(e){toast(e.message)}
-}
-
-/* ---- 기록 ---- */
-async function loadHistory(){
-  const h=await api('/api/verdicts'); totals=h.totals;
-  $('#totals').innerHTML=`<div class="kpi hero silver"><small>지금까지 지켜낸 금액 (집행된 판결 기준)</small><b>${won(totals.saved)}</b>
-      <div class="sub2">기각 ${won(totals.rejected)} · 혜택 ${won(totals.discount)} · 재판 ${totals.trials}회 / 집행 ${totals.executed}회</div></div>`;
-  $('#history').innerHTML=h.verdicts.length?h.verdicts.map(v=>{const d=new Date(v.created_at*1000);
-    return `<div class="hist" onclick="openPast('${v.id}')"><div><div class="hc">${esc(v.case_no)} ${v.accepted?'<span class="tag ok">집행</span>':''}</div>
-      <div class="hd">${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} · 허가 ${v.approved_count} · 기각 ${v.rejected_count}</div></div>
-      <div class="hr"><b>${won(v.final_total)}</b><small>지킴 ${won(v.discount+v.rejected_amount)}</small></div></div>`}).join('')
-    :'<div class="empty">아직 열린 재판이 없습니다.</div>';
-}
-async function openPast(id){
-  const v=await api('/api/verdicts/'+id);
-  showView('court');$('#court').innerHTML='';$('#gavel').classList.add('hidden');
-  $('#case-line').textContent=`사건번호 ${v.case_no} · 지난 판결 다시 보기`;
-  currentVerdict=v; renderVerdict(v,v.defendants||[]); $('#seal').classList.add('show');$('#bigstamp').classList.add('show');
-  await renderResult(v,v.defendants||[],true);
-  const h=await api('/api/verdicts'); const meta=h.verdicts.find(x=>x.id===id);
-  setAcceptBtn(meta&&meta.accepted);
-}
-function setAcceptBtn(done){const b=$('#btn-accept');b.disabled=!!done;b.textContent=done?'✓ 집행 완료':'⚖︎ 판결 집행'}
-async function acceptVerdict(){
-  if(!currentVerdict) return;
-  const r=await api(`/api/verdicts/${currentVerdict.id}/accept`,{method:'POST'});
-  totals=r.totals; items=r.items; setAcceptBtn(true);
-  toast(r.already?'이미 집행된 판결입니다':`집행 완료 · 기각 상품을 장바구니에서 뺐습니다`);
-}
-
-/* ---- 재판 ---- */
-function gavelSound(){
-  try{const ac=new (window.AudioContext||window.webkitAudioContext)();
-    for(let k=0;k<3;k++){const t=ac.currentTime+k*0.28;
-      const o=ac.createOscillator(),g=ac.createGain(),n=ac.createBufferSource();
-      const buf=ac.createBuffer(1,ac.sampleRate*0.08,ac.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
-      n.buffer=buf;const ng=ac.createGain();ng.gain.setValueAtTime(.6,t);ng.gain.exponentialRampToValueAtTime(.001,t+.08);n.connect(ng).connect(ac.destination);n.start(t);
-      o.type='sine';o.frequency.setValueAtTime(180,t);o.frequency.exponentialRampToValueAtTime(60,t+.15);
-      g.gain.setValueAtTime(.8,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.2);}
-  }catch(e){}
-}
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function openCourt(){
-  if(!settings||!settings.configured) return go('settings');
-  showView('court');$('#court').innerHTML='';$('#verdict-wrap').classList.add('hidden');$('#gavel').classList.add('hidden');$('#boom').classList.remove('show');$('#gavel').classList.remove('hit');
-  $('#case-line').textContent='사건 접수 · 증거 대조 중…';
-  let v; try{v=await api('/api/judge',{method:'POST',body:'{}'})}catch(e){toast(e.message);return go('cart')}
-  currentVerdict=v; setAcceptBtn(false);
-  const good=v.defendants;
-  $('#case-line').textContent=`사건번호 ${v.case_no} · 피고 ${good.length}인 · 예산 ${won(v.budget)}`;
-  const court=$('#court');
-  const say=async(cls,who,text)=>{const b=document.createElement('div');b.className='bubble '+cls;b.innerHTML=`<div class="who">${who}</div>${esc(text)}`;court.appendChild(b);await sleep(60);b.classList.add('show');await sleep(1300)};
-  for(const t of v.voice.prosecutor) await say('pros','검사',t);
-  for(const t of v.voice.lawyer) await say('law','변호사',t);
-  await say('jdg','재판장',v.voice.judge);
-  $('#gavel').classList.remove('hidden');await sleep(300);
-  gavelSound();$('#gavel').classList.add('hit');await sleep(500);$('#boom').classList.add('show');await sleep(1000);
-  renderVerdict(v,good);
-  $('#seal').classList.add('show');$('#bigstamp').classList.add('show');
-  await renderResult(v,good);
-}
-function stampTick(){try{const ac=new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=110;g.gain.setValueAtTime(.25,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.09);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+.1)}catch(e){}}
-function countUp(el,to,ms=1300){const t0=performance.now();const step=now=>{const p=Math.min(1,(now-t0)/ms);const e=1-Math.pow(1-p,3);el.textContent=won(Math.round(to*e));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
-async function renderResult(v,good,quick=false){
-  const ok=new Set(v.approved.map(i=>i.id));
-  const byId=Object.fromEntries(good.map(i=>[i.id,i]));
-  const rej=Object.fromEntries(v.rejected.map(r=>[r.item.id,r.reason]));
-  const shieldPct=Math.min(100,Math.round(v.saved_total/Math.max(1,v.list_total+v.rejected_amount)*100));
-  const headline=v.approved.length===0?'전원 <em>기각</em>.':v.rejected.length===0?'전원 <em>구매 허가</em>.':`${v.approved.length}건 허가, <em>${v.rejected.length}건 기각</em>.`;
-  const r=$('#result');
-  r.innerHTML=`
-    <div class="headline"><div class="big">${headline}</div><div class="case">사건번호 ${v.case_no} · 혜택 기준일 ${v.benefits_as_of}</div></div>
-    <div class="kpis">
-      <div class="kpi hero silver"><small>지갑을 지킨 금액 (기각 + 혜택)</small><b id="k-saved">0원</b>
-        <div class="sub2">기각 ${won(v.rejected_amount)} · 혜택 ${won(v.discount)}</div>
-        <div class="shield"><i id="shield"></i></div></div>
-      <div class="kpi"><small>결제 총액</small><b id="k-final">0원</b></div>
-      <div class="kpi"><small>예산 대비</small><b>${Math.round(v.final_total/v.budget*100)}%</b></div>
-      <div class="kpi"><small>기각 금액</small><b id="k-rej" style="color:var(--rust)">0원</b></div>
-    </div>
-    <div class="sec-t">이렇게 결제하세요</div>
-    <div id="receipts">${v.plan.map(p=>`
-      <div class="receipt"><div class="top"><span>${PLAT[p.platform]||p.platform}</span><span class="pay">${p.payment_label}</span></div>
-        <div class="mid">${p.items.map(id=>esc((byId[id]||{}).name)).join(' + ')}<br><span style="font-size:11px">${p.rule}</span></div>
-        <div class="tot"><span>결제</span><span>${p.discount?`<s>${won(p.list_total)}</s>`:''}${won(p.final_total)}</span></div></div>`).join('')||'<div class="receipt">결제할 상품이 없습니다.</div>'}</div>
-    ${v.minority_opinion?`<div class="minor">소수의견 · ${v.minority_opinion}</div>`:''}
-    <div class="sec-t">피고별 판결</div>
-    <div id="ritems">${good.map(i=>`<div class="ritem ${ok.has(i.id)?'ok':'no'}" id="ri-${i.id}">
-        ${i.image?`<img src="${i.image}" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=ph>${CAT_ICON[i.category]||'🛍️'}</div>'">`:`<div class="ph">${CAT_ICON[i.category]||'🛍️'}</div>`}
-        <div style="flex:1;min-width:0"><div class="nm">${esc(i.name)}</div><div class="why">${PLAT[i.platform]||i.platform} · ${ok.has(i.id)?'허가':rej[i.id]||'기각'}</div></div>
-        <div class="pr">${won(i.price)}</div><div class="stamp"></div></div>`).join('')}</div>`;
-  $('#verdict-wrap').classList.remove('hidden');$('#verdict-wrap').scrollIntoView({behavior:'smooth',block:'start'});
-  if(quick){countUp($('#k-saved'),v.saved_total,1);countUp($('#k-final'),v.final_total,1);countUp($('#k-rej'),v.rejected_amount,1);$('#shield').style.width=shieldPct+'%';
-    good.forEach(i=>{const el=$('#ri-'+i.id);el.classList.add('show');const s=el.querySelector('.stamp');s.textContent=ok.has(i.id)?'구매 허가':'기각';s.className='stamp show '+(ok.has(i.id)?'ok':'no')});return}
-  await sleep(300);
-  countUp($('#k-saved'),v.saved_total);countUp($('#k-final'),v.final_total,900);countUp($('#k-rej'),v.rejected_amount,1100);
-  $('#shield').style.width=shieldPct+'%';
-  await sleep(600);
-  for(const i of good){const el=$('#ri-'+i.id);el.classList.add('show');await sleep(220);const s=el.querySelector('.stamp');s.textContent=ok.has(i.id)?'구매 허가':'기각';s.className='stamp show '+(ok.has(i.id)?'ok':'no');stampTick();await sleep(380)}
-}
-function renderVerdict(v,good){
-  const names=good.map(i=>i.name);
-  const orders=v.orders.map(o=>`<li class="${o.includes('기각')?'no':'ok'}"><b>${o.includes('기각')?'기각':'허가'}</b> · ${o}</li>`).join('');
-  const reasons=[...v.rejected.map(r=>`${r.item.name}: ${r.reason}.`), ...v.plan.map(p=>`${PLAT[p.platform]||p.platform} 장바구니 ${won(p.list_total)} − ${p.rule} = ${won(p.final_total)}.`)].join(' ');
-  const today=new Date();const dstr=`${today.getFullYear()}. ${today.getMonth()+1}. ${today.getDate()}.`;
-  $('#verdict').innerHTML=`
-    <div class="court-name">장바구니 재판소</div><h1>판 결</h1>
-    <div class="kv">사건 · ${v.case_no} 장바구니 중복·과소비 심리<br>원고 · 지갑 &nbsp; 피고 · ${names.join(', ')}</div>
-    <h3>주 문</h3><ol>${orders}</ol>
-    <div class="sum"><div><small>결제 총액</small><b>${won(v.final_total)}</b></div><div><small>혜택 절약</small><b>${won(v.discount)}</b></div><div class="big"><small>기각 금액</small><b>${won(v.rejected_amount)}</b></div></div>
-    <h3>이 유</h3><p class="reason">${reasons}</p>
-    ${v.minority_opinion?`<div class="minor">소수의견 · ${v.minority_opinion}</div>`:''}
-    <div class="foot"><div>선고일 · ${dstr}<br>재판장 판사 장바구니</div><div class="seal" id="seal">장바<br>구니</div></div>
-    <div class="stamp bigstamp ${v.approved.length?'ok':'no'}" id="bigstamp">${v.approved.length?'구매 허가':'전원 기각'}</div>
-    <div class="note">※ 가격은 공유 링크 표시가 기준 · 혜택은 ${v.benefits_as_of} 기준 표 · 판결은 규칙 엔진 계산, AI는 말투만 담당</div>`;
-  $('#ev').innerHTML=`<summary>📋 판결 근거표 (${v.evidence.length}행) — 모든 숫자는 검산 가능합니다</summary>
-    <table><tr><th>규칙</th><th>대상</th><th>계산</th><th>결과</th></tr>
-    ${v.evidence.map(e=>`<tr><td>${e.rule}</td><td>${e.item}</td><td>${e.detail}</td><td class="r ${e.result.includes('기각')?'no':'ok'}">${e.result}</td></tr>`).join('')}</table>`;
-}
-async function saveImage(){
-  toast('판결문을 그리는 중…');
-  const canvas=await html2canvas($('#verdict'),{scale:2,backgroundColor:'#FFFDF8',useCORS:true});
-  const a=document.createElement('a');a.download=`판결문_${Date.now()}.png`;a.href=canvas.toDataURL('image/png');a.click();
-  toast('저장했습니다. 공유해 보세요!');
-}
-init();
-</script>
+<script src="/static/app.js" type="module"></script>
 </body>
 </html>

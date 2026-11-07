@@ -1,0 +1,1124 @@
+{
+ "as_of": "2026-11-06",
+ "note": "시연용 참고가입니다. 한국가는 올리브영 정가 기준 대략값, 본국가는 미국·일본·중국 온라인 판매가 대략값입니다. 시연 전 실제 값으로 확인·수정하세요. rebuy_url(역직구 링크)과 image는 직접 채우세요.",
+ "products": [
+  {
+   "id": "roundlab-dokdo-toner",
+   "brand": {
+    "ko": "라운드랩",
+    "en": "Round Lab"
+   },
+   "name": {
+    "ko": "1025 독도 토너",
+    "en": "1025 Dokdo Toner"
+   },
+   "category": "toner",
+   "tags": [
+    "sea_minerals",
+    "panthenol",
+    "exfoliating"
+   ],
+   "size": "200ml",
+   "price_krw": 16000,
+   "home_price": {
+    "USD": 20,
+    "JPY": 2090,
+    "CNY": 129
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "anua-heartleaf-toner",
+   "brand": {
+    "ko": "아누아",
+    "en": "Anua"
+   },
+   "name": {
+    "ko": "어성초 77 수딩 토너",
+    "en": "Heartleaf 77% Soothing Toner"
+   },
+   "category": "toner",
+   "tags": [
+    "heartleaf",
+    "panthenol",
+    "soothing"
+   ],
+   "size": "250ml",
+   "price_krw": 28000,
+   "home_price": {
+    "USD": 29,
+    "JPY": 2890,
+    "CNY": 189
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "torriden-divein-serum",
+   "brand": {
+    "ko": "토리든",
+    "en": "Torriden"
+   },
+   "name": {
+    "ko": "다이브인 저분자 히알루론산 세럼",
+    "en": "DIVE-IN Low Molecular Hyaluronic Acid Serum"
+   },
+   "category": "serum",
+   "tags": [
+    "hyaluronic_acid",
+    "panthenol",
+    "hydrating"
+   ],
+   "size": "50ml",
+   "price_krw": 22000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2700,
+    "CNY": 159
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "boj-relief-sun",
+   "brand": {
+    "ko": "조선미녀",
+    "en": "Beauty of Joseon"
+   },
+   "name": {
+    "ko": "맑은쌀 선크림",
+    "en": "Relief Sun: Rice + Probiotics"
+   },
+   "category": "sunscreen",
+   "tags": [
+    "rice",
+    "probiotics",
+    "spf50"
+   ],
+   "size": "50ml",
+   "price_krw": 18000,
+   "home_price": {
+    "USD": 18,
+    "JPY": 1980,
+    "CNY": 129
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "boj-glow-serum",
+   "brand": {
+    "ko": "조선미녀",
+    "en": "Beauty of Joseon"
+   },
+   "name": {
+    "ko": "광채 프로폴리스 세럼",
+    "en": "Glow Serum: Propolis + Niacinamide"
+   },
+   "category": "serum",
+   "tags": [
+    "propolis",
+    "niacinamide",
+    "brightening"
+   ],
+   "size": "30ml",
+   "price_krw": 17000,
+   "home_price": {
+    "USD": 17,
+    "JPY": 2200,
+    "CNY": 119
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "cosrx-snail-essence",
+   "brand": {
+    "ko": "코스알엑스",
+    "en": "COSRX"
+   },
+   "name": {
+    "ko": "어드밴스드 스네일 96 뮤신 파워 에센스",
+    "en": "Advanced Snail 96 Mucin Power Essence"
+   },
+   "category": "serum",
+   "tags": [
+    "snail_mucin",
+    "hydrating",
+    "repair"
+   ],
+   "size": "100ml",
+   "price_krw": 25000,
+   "home_price": {
+    "USD": 25,
+    "JPY": 2640,
+    "CNY": 169
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "cosrx-gel-cleanser",
+   "brand": {
+    "ko": "코스알엑스",
+    "en": "COSRX"
+   },
+   "name": {
+    "ko": "로우 pH 굿모닝 젤 클렌저",
+    "en": "Low pH Good Morning Gel Cleanser"
+   },
+   "category": "cleanser",
+   "tags": [
+    "bha",
+    "tea_tree",
+    "low_ph"
+   ],
+   "size": "150ml",
+   "price_krw": 12000,
+   "home_price": {
+    "USD": 14,
+    "JPY": 1280,
+    "CNY": 89
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "laneige-water-sleeping",
+   "brand": {
+    "ko": "라네즈",
+    "en": "LANEIGE"
+   },
+   "name": {
+    "ko": "워터 슬리핑 마스크",
+    "en": "Water Sleeping Mask"
+   },
+   "category": "mask",
+   "tags": [
+    "hyaluronic_acid",
+    "hydrating",
+    "overnight"
+   ],
+   "size": "70ml",
+   "price_krw": 32000,
+   "home_price": {
+    "USD": 32,
+    "JPY": 3300,
+    "CNY": 230
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "laneige-lip-mask",
+   "brand": {
+    "ko": "라네즈",
+    "en": "LANEIGE"
+   },
+   "name": {
+    "ko": "립 슬리핑 마스크 베리",
+    "en": "Lip Sleeping Mask Berry"
+   },
+   "category": "lip",
+   "tags": [
+    "berry",
+    "vitamin_c",
+    "overnight"
+   ],
+   "size": "20g",
+   "price_krw": 23000,
+   "home_price": {
+    "USD": 24,
+    "JPY": 2420,
+    "CNY": 175
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "medicube-zero-pore-pad",
+   "brand": {
+    "ko": "메디큐브",
+    "en": "medicube"
+   },
+   "name": {
+    "ko": "제로 모공 패드 2.0",
+    "en": "Zero Pore Pad 2.0"
+   },
+   "category": "pad",
+   "tags": [
+    "bha",
+    "pore_care",
+    "exfoliating"
+   ],
+   "size": "70 pads",
+   "price_krw": 26000,
+   "home_price": {
+    "USD": 26,
+    "JPY": 2970,
+    "CNY": 199
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "medicube-pdrn-serum",
+   "brand": {
+    "ko": "메디큐브",
+    "en": "medicube"
+   },
+   "name": {
+    "ko": "PDRN 핑크 펩타이드 세럼",
+    "en": "PDRN Pink Peptide Serum"
+   },
+   "category": "serum",
+   "tags": [
+    "pdrn",
+    "peptide",
+    "brightening"
+   ],
+   "size": "30ml",
+   "price_krw": 29000,
+   "home_price": {
+    "USD": 34,
+    "JPY": 3500,
+    "CNY": 239
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "skin1004-centella-ampoule",
+   "brand": {
+    "ko": "스킨1004",
+    "en": "SKIN1004"
+   },
+   "name": {
+    "ko": "마다가스카르 센텔라 앰플",
+    "en": "Madagascar Centella Ampoule"
+   },
+   "category": "serum",
+   "tags": [
+    "centella",
+    "soothing",
+    "repair"
+   ],
+   "size": "100ml",
+   "price_krw": 23000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2480,
+    "CNY": 149
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "skin1004-sun-serum",
+   "brand": {
+    "ko": "스킨1004",
+    "en": "SKIN1004"
+   },
+   "name": {
+    "ko": "히알루시카 워터핏 선세럼",
+    "en": "Hyalu-Cica Water-fit Sun Serum"
+   },
+   "category": "sunscreen",
+   "tags": [
+    "centella",
+    "hyaluronic_acid",
+    "spf50"
+   ],
+   "size": "50ml",
+   "price_krw": 19000,
+   "home_price": {
+    "USD": 19,
+    "JPY": 1980,
+    "CNY": 129
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "romand-juicy-tint",
+   "brand": {
+    "ko": "롬앤",
+    "en": "rom&nd"
+   },
+   "name": {
+    "ko": "쥬시 래스팅 틴트",
+    "en": "Juicy Lasting Tint"
+   },
+   "category": "lip",
+   "tags": [
+    "glossy",
+    "long_lasting",
+    "tint"
+   ],
+   "size": "5.5g",
+   "price_krw": 13000,
+   "home_price": {
+    "USD": 13,
+    "JPY": 1320,
+    "CNY": 79
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "romand-glasting-tint",
+   "brand": {
+    "ko": "롬앤",
+    "en": "rom&nd"
+   },
+   "name": {
+    "ko": "글래스팅 워터 틴트",
+    "en": "Glasting Water Tint"
+   },
+   "category": "lip",
+   "tags": [
+    "glossy",
+    "hydrating",
+    "tint"
+   ],
+   "size": "4g",
+   "price_krw": 13000,
+   "home_price": {
+    "USD": 14,
+    "JPY": 1320,
+    "CNY": 79
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "clio-killcover-cushion",
+   "brand": {
+    "ko": "클리오",
+    "en": "CLIO"
+   },
+   "name": {
+    "ko": "킬커버 픽서 쿠션",
+    "en": "Kill Cover Fixer Cushion"
+   },
+   "category": "cushion",
+   "tags": [
+    "full_coverage",
+    "long_lasting",
+    "spf50"
+   ],
+   "size": "15g x2",
+   "price_krw": 36000,
+   "home_price": {
+    "USD": 34,
+    "JPY": 3520,
+    "CNY": 239
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "peripera-ink-velvet",
+   "brand": {
+    "ko": "페리페라",
+    "en": "PERIPERA"
+   },
+   "name": {
+    "ko": "잉크 더 벨벳",
+    "en": "Ink the Velvet"
+   },
+   "category": "lip",
+   "tags": [
+    "matte",
+    "long_lasting",
+    "tint"
+   ],
+   "size": "4g",
+   "price_krw": 9000,
+   "home_price": {
+    "USD": 10,
+    "JPY": 1100,
+    "CNY": 59
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "drg-red-blemish-cream",
+   "brand": {
+    "ko": "닥터지",
+    "en": "Dr.G"
+   },
+   "name": {
+    "ko": "레드 블레미쉬 클리어 수딩 크림",
+    "en": "Red Blemish Clear Soothing Cream"
+   },
+   "category": "cream",
+   "tags": [
+    "centella",
+    "soothing",
+    "oil_control"
+   ],
+   "size": "70ml",
+   "price_krw": 30000,
+   "home_price": {
+    "USD": 34,
+    "JPY": 3300,
+    "CNY": 209
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "aestura-atobarrier-cream",
+   "brand": {
+    "ko": "에스트라",
+    "en": "AESTURA"
+   },
+   "name": {
+    "ko": "아토베리어365 크림",
+    "en": "Atobarrier 365 Cream"
+   },
+   "category": "cream",
+   "tags": [
+    "ceramide",
+    "barrier",
+    "hydrating"
+   ],
+   "size": "80ml",
+   "price_krw": 31000,
+   "home_price": {
+    "USD": 36,
+    "JPY": 3850,
+    "CNY": 229
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "illiyoon-ceramide-cream",
+   "brand": {
+    "ko": "일리윤",
+    "en": "ILLIYOON"
+   },
+   "name": {
+    "ko": "세라마이드 아토 집중 크림",
+    "en": "Ceramide Ato Concentrate Cream"
+   },
+   "category": "cream",
+   "tags": [
+    "ceramide",
+    "barrier",
+    "fragrance_free"
+   ],
+   "size": "200ml",
+   "price_krw": 25000,
+   "home_price": {
+    "USD": 27,
+    "JPY": 2750,
+    "CNY": 169
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "mediheal-teatree-mask",
+   "brand": {
+    "ko": "메디힐",
+    "en": "MEDIHEAL"
+   },
+   "name": {
+    "ko": "티트리 에센셜 마스크 10매",
+    "en": "Teatree Essential Mask (10 sheets)"
+   },
+   "category": "mask",
+   "tags": [
+    "tea_tree",
+    "soothing",
+    "oil_control"
+   ],
+   "size": "10 sheets",
+   "price_krw": 20000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2200,
+    "CNY": 129
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "abib-heartleaf-pad",
+   "brand": {
+    "ko": "아비브",
+    "en": "Abib"
+   },
+   "name": {
+    "ko": "어성초 스팟 패드 카밍터치",
+    "en": "Heartleaf Spot Pad Calming Touch"
+   },
+   "category": "pad",
+   "tags": [
+    "heartleaf",
+    "soothing",
+    "exfoliating"
+   ],
+   "size": "80 pads",
+   "price_krw": 26000,
+   "home_price": {
+    "USD": 26,
+    "JPY": 2860,
+    "CNY": 179
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "numbuzin-no3-toner",
+   "brand": {
+    "ko": "넘버즈인",
+    "en": "numbuzin"
+   },
+   "name": {
+    "ko": "3번 결광 가득 에센스 토너",
+    "en": "No.3 Super Glowing Essence Toner"
+   },
+   "category": "toner",
+   "tags": [
+    "galactomyces",
+    "exfoliating",
+    "brightening"
+   ],
+   "size": "200ml",
+   "price_krw": 24000,
+   "home_price": {
+    "USD": 25,
+    "JPY": 2680,
+    "CNY": 169
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "numbuzin-no5-serum",
+   "brand": {
+    "ko": "넘버즈인",
+    "en": "numbuzin"
+   },
+   "name": {
+    "ko": "5번 비타민 농도 세럼",
+    "en": "No.5 Vitamin Concentrated Serum"
+   },
+   "category": "serum",
+   "tags": [
+    "vitamin_c",
+    "glutathione",
+    "brightening"
+   ],
+   "size": "50ml",
+   "price_krw": 26000,
+   "home_price": {
+    "USD": 27,
+    "JPY": 2980,
+    "CNY": 189
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "manyo-cleansing-oil",
+   "brand": {
+    "ko": "마녀공장",
+    "en": "ma:nyo"
+   },
+   "name": {
+    "ko": "퓨어 클렌징 오일",
+    "en": "Pure Cleansing Oil"
+   },
+   "category": "cleanser",
+   "tags": [
+    "oil_cleanse",
+    "bha",
+    "pore_care"
+   ],
+   "size": "200ml",
+   "price_krw": 24000,
+   "home_price": {
+    "USD": 26,
+    "JPY": 2750,
+    "CNY": 169
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "banila-cleanit-zero",
+   "brand": {
+    "ko": "바닐라코",
+    "en": "BANILA CO"
+   },
+   "name": {
+    "ko": "클린잇제로 클렌징밤 오리지널",
+    "en": "Clean it Zero Cleansing Balm Original"
+   },
+   "category": "cleanser",
+   "tags": [
+    "oil_cleanse",
+    "makeup_remover",
+    "hydrating"
+   ],
+   "size": "100ml",
+   "price_krw": 22000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2420,
+    "CNY": 149
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "innisfree-greentea-serum",
+   "brand": {
+    "ko": "이니스프리",
+    "en": "innisfree"
+   },
+   "name": {
+    "ko": "그린티 씨드 히알루론산 세럼",
+    "en": "Green Tea Seed Hyaluronic Serum"
+   },
+   "category": "serum",
+   "tags": [
+    "green_tea",
+    "hyaluronic_acid",
+    "hydrating"
+   ],
+   "size": "80ml",
+   "price_krw": 32000,
+   "home_price": {
+    "USD": 33,
+    "JPY": 3300,
+    "CNY": 219
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "etude-soonjung-toner",
+   "brand": {
+    "ko": "에뛰드",
+    "en": "ETUDE"
+   },
+   "name": {
+    "ko": "순정 pH 5.5 진정 토너",
+    "en": "SoonJung pH 5.5 Relief Toner"
+   },
+   "category": "toner",
+   "tags": [
+    "panthenol",
+    "soothing",
+    "low_ph"
+   ],
+   "size": "200ml",
+   "price_krw": 15000,
+   "home_price": {
+    "USD": 17,
+    "JPY": 1650,
+    "CNY": 99
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "isntree-sun-gel",
+   "brand": {
+    "ko": "이즈앤트리",
+    "en": "Isntree"
+   },
+   "name": {
+    "ko": "히알루론산 워터리 선젤",
+    "en": "Hyaluronic Acid Watery Sun Gel"
+   },
+   "category": "sunscreen",
+   "tags": [
+    "hyaluronic_acid",
+    "spf50",
+    "hydrating"
+   ],
+   "size": "50ml",
+   "price_krw": 22000,
+   "home_price": {
+    "USD": 20,
+    "JPY": 2200,
+    "CNY": 139
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "roundlab-birch-sun",
+   "brand": {
+    "ko": "라운드랩",
+    "en": "Round Lab"
+   },
+   "name": {
+    "ko": "자작나무 수분 선크림",
+    "en": "Birch Juice Moisturizing Sunscreen"
+   },
+   "category": "sunscreen",
+   "tags": [
+    "birch_sap",
+    "hyaluronic_acid",
+    "spf50"
+   ],
+   "size": "50ml",
+   "price_krw": 25000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2420,
+    "CNY": 149
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "anua-cleansing-oil",
+   "brand": {
+    "ko": "아누아",
+    "en": "Anua"
+   },
+   "name": {
+    "ko": "어성초 포어 컨트롤 클렌징 오일",
+    "en": "Heartleaf Pore Control Cleansing Oil"
+   },
+   "category": "cleanser",
+   "tags": [
+    "heartleaf",
+    "oil_cleanse",
+    "pore_care"
+   ],
+   "size": "200ml",
+   "price_krw": 27000,
+   "home_price": {
+    "USD": 26,
+    "JPY": 2860,
+    "CNY": 179
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "torriden-soothing-cream",
+   "brand": {
+    "ko": "토리든",
+    "en": "Torriden"
+   },
+   "name": {
+    "ko": "다이브인 수딩 크림",
+    "en": "DIVE-IN Soothing Cream"
+   },
+   "category": "cream",
+   "tags": [
+    "panthenol",
+    "barrier",
+    "soothing"
+   ],
+   "size": "100ml",
+   "price_krw": 24000,
+   "home_price": {
+    "USD": 24,
+    "JPY": 2750,
+    "CNY": 169
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "vt-reedle-shot",
+   "brand": {
+    "ko": "브이티",
+    "en": "VT"
+   },
+   "name": {
+    "ko": "리들샷 100",
+    "en": "Reedle Shot 100"
+   },
+   "category": "serum",
+   "tags": [
+    "cica",
+    "microneedle",
+    "pore_care"
+   ],
+   "size": "50ml",
+   "price_krw": 28000,
+   "home_price": {
+    "USD": 30,
+    "JPY": 3410,
+    "CNY": 199
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "biodance-collagen-mask",
+   "brand": {
+    "ko": "바이오던스",
+    "en": "BIODANCE"
+   },
+   "name": {
+    "ko": "바이오 콜라겐 리얼 딥 마스크 4매",
+    "en": "Bio-Collagen Real Deep Mask (4 sheets)"
+   },
+   "category": "mask",
+   "tags": [
+    "collagen",
+    "hydrating",
+    "overnight"
+   ],
+   "size": "4 sheets",
+   "price_krw": 19000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2640,
+    "CNY": 149
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "dalba-spray-serum",
+   "brand": {
+    "ko": "달바",
+    "en": "d'Alba"
+   },
+   "name": {
+    "ko": "화이트 트러플 퍼스트 스프레이 세럼",
+    "en": "White Truffle First Spray Serum"
+   },
+   "category": "serum",
+   "tags": [
+    "white_truffle",
+    "hydrating",
+    "glow"
+   ],
+   "size": "100ml",
+   "price_krw": 29000,
+   "home_price": {
+    "USD": 30,
+    "JPY": 3080,
+    "CNY": 199
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "mixsoon-bean-essence",
+   "brand": {
+    "ko": "믹순",
+    "en": "mixsoon"
+   },
+   "name": {
+    "ko": "콩 에센스",
+    "en": "Bean Essence"
+   },
+   "category": "serum",
+   "tags": [
+    "soybean",
+    "exfoliating",
+    "glow"
+   ],
+   "size": "50ml",
+   "price_krw": 26000,
+   "home_price": {
+    "USD": 28,
+    "JPY": 2970,
+    "CNY": 189
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "goodal-vitac-serum",
+   "brand": {
+    "ko": "구달",
+    "en": "goodal"
+   },
+   "name": {
+    "ko": "청귤 비타C 잡티 케어 세럼",
+    "en": "Green Tangerine Vita C Dark Spot Serum"
+   },
+   "category": "serum",
+   "tags": [
+    "vitamin_c",
+    "brightening",
+    "dark_spot"
+   ],
+   "size": "40ml",
+   "price_krw": 29000,
+   "home_price": {
+    "USD": 28,
+    "JPY": 3190,
+    "CNY": 199
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "drjart-cicapair-cc",
+   "brand": {
+    "ko": "닥터자르트",
+    "en": "Dr.Jart+"
+   },
+   "name": {
+    "ko": "시카페어 컬러 코렉팅 트리트먼트",
+    "en": "Cicapair Tiger Grass Color Correcting Treatment"
+   },
+   "category": "base",
+   "tags": [
+    "centella",
+    "color_correcting",
+    "spf50"
+   ],
+   "size": "50ml",
+   "price_krw": 42000,
+   "home_price": {
+    "USD": 52,
+    "JPY": 4950,
+    "CNY": 320
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "espoir-glow-cushion",
+   "brand": {
+    "ko": "에스쁘아",
+    "en": "espoir"
+   },
+   "name": {
+    "ko": "프로 테일러 비 글로우 쿠션",
+    "en": "Pro Tailor Be Glow Cushion"
+   },
+   "category": "cushion",
+   "tags": [
+    "glow",
+    "long_lasting",
+    "spf50"
+   ],
+   "size": "13g x2",
+   "price_krw": 34000,
+   "home_price": {
+    "USD": 36,
+    "JPY": 3850,
+    "CNY": 239
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "fwee-pudding-pot",
+   "brand": {
+    "ko": "퓌",
+    "en": "fwee"
+   },
+   "name": {
+    "ko": "립앤치크 블러리 푸딩팟",
+    "en": "Lip & Cheek Blurry Pudding Pot"
+   },
+   "category": "lip",
+   "tags": [
+    "blurry",
+    "lip_cheek",
+    "tint"
+   ],
+   "size": "5g",
+   "price_krw": 18000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2200,
+    "CNY": 129
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "romand-glasting-melting-balm",
+   "brand": {
+    "ko": "롬앤",
+    "en": "rom&nd"
+   },
+   "name": {
+    "ko": "글래스팅 멜팅 밤",
+    "en": "Glasting Melting Balm"
+   },
+   "category": "lip",
+   "tags": [
+    "glossy",
+    "hydrating",
+    "lip_balm"
+   ],
+   "size": "3.5g",
+   "price_krw": 13000,
+   "home_price": {
+    "USD": 15,
+    "JPY": 1540,
+    "CNY": 89
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "celimax-heartleaf-bha-pad",
+   "brand": {
+    "ko": "셀리맥스",
+    "en": "celimax"
+   },
+   "name": {
+    "ko": "지우개 어성초 BHA 필링 패드",
+    "en": "Ji Woo Gae Heartleaf BHA Peeling Pad"
+   },
+   "category": "pad",
+   "tags": [
+    "heartleaf",
+    "bha",
+    "exfoliating"
+   ],
+   "size": "60 pads",
+   "price_krw": 21000,
+   "home_price": {
+    "USD": 22,
+    "JPY": 2200,
+    "CNY": 139
+   },
+   "rebuy_url": "",
+   "image": ""
+  },
+  {
+   "id": "amuse-dew-serum-blush",
+   "brand": {
+    "ko": "어뮤즈",
+    "en": "AMUSE"
+   },
+   "name": {
+    "ko": "듀 세럼 리퀴드 블러셔",
+    "en": "Dew Serum Liquid Blush"
+   },
+   "category": "blush",
+   "tags": [
+    "niacinamide",
+    "glow",
+    "liquid_blush"
+   ],
+   "size": "7ml",
+   "price_krw": 24000,
+   "home_price": {
+    "USD": 24,
+    "JPY": 2640,
+    "CNY": 159
+   },
+   "rebuy_url": "",
+   "image": ""
+  }
+ ]
+}
